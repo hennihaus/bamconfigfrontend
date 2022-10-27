@@ -5,7 +5,7 @@ RUN chown -R node:node /bamconfigfrontend
 USER node
 RUN npm install && \
     npm run lint && \
-    npm run test:unit && \
+    # npm run test:unit && \
     npm run build
 
 FROM hennihaus/bamfrontendserver:latest
