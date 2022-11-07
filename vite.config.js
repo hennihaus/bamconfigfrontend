@@ -3,6 +3,9 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
+const HOST = "0.0.0.0";
+const PORT = 4200;
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
@@ -10,5 +13,13 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
+  },
+  server: {
+    host: HOST,
+    port: PORT,
+  },
+  preview: {
+    host: HOST,
+    port: PORT,
   },
 });
