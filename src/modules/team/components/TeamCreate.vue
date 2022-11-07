@@ -1,9 +1,9 @@
 <template>
-  <RouterView />
+  <h1>TODO</h1>
 </template>
 
 <script>
 export default {
-  name: "App",
+  name: "TeamCreate",
 };
 </script>
