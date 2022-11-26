@@ -7,7 +7,7 @@
     </div>
     <div v-if="isTeamItemActive" class="item">
       <div class="tiny ui olive button" @click="$emit('printTeams')">
-        Gruppeneinteilung
+        Teams drucken
       </div>
     </div>
     <div v-if="isTeamItemActive" class="item">

@@ -56,7 +56,7 @@ export default {
     fetchTeams() {
       this.$teamApi
         .getAll()
-        .then((teams) => (this.teams = teams))
+        .then((response) => (this.teams = response.items))
         .catch(() => (this.teams = []))
         .finally(() => (this.isLoading = false))
         .then(() => this.$nextTick())

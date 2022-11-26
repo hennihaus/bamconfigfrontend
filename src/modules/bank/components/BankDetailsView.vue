@@ -8,14 +8,12 @@
     </div>
 
     <div class="four wide column">
-      <h4>Teams</h4>
       <template v-if="bank.isAsync">
-        <div v-for="team in bank.teams" :key="team.uuid">
-          {{ team.username }}
-        </div>
-        <div v-if="hasNoTeams">Keine Teams vorhanden</div>
+        <h4>JMS-Queue</h4>
+        <div>{{ bank.jmsQueue }}</div>
       </template>
-      <div v-else>Alle</div>
+      <h4>Schnittstelle</h4>
+      <div>{{ asyncStatus }}</div>
     </div>
 
     <div v-if="bank.creditConfiguration" class="four wide column">
@@ -25,15 +23,14 @@
     </div>
 
     <div class="four wide column">
+      <h4>Teams</h4>
       <template v-if="bank.isAsync">
-        <h4>JMS-Queue</h4>
-        <div>{{ bank.jmsQueue }}</div>
+        <div v-if="bank.teamsCount">{{ bank.teamsCount }} Teams</div>
+        <div v-else>Keine Teams vorhanden</div>
       </template>
-      <h4>Schnittstelle</h4>
-      <div>{{ asyncStatus }}</div>
+      <div v-else>Alle</div>
     </div>
   </div>
-
   <div class="ui divider"></div>
 </template>
 
@@ -59,9 +56,6 @@ export default {
     },
     asyncStatus() {
       return this.bank.isAsync ? "JMS" : "SOAP/REST";
-    },
-    hasNoTeams() {
-      return !this.bank.teams.length;
     },
   },
 };
