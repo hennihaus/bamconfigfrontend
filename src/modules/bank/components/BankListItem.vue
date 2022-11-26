@@ -15,7 +15,7 @@
       <div class="metadata">
         {{ asyncStatus }}
         <br />
-        <span v-if="bank.isAsync">{{ bank.teams.length }} Teams</span>
+        <span v-if="bank.isAsync">{{ bank.teamsCount }} Teams</span>
         <span v-else>Alle Teams</span>
       </div>
     </div>
