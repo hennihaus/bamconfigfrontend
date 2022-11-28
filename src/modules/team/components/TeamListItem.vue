@@ -6,14 +6,10 @@
     }"
     class="item"
   >
-    <img
-      v-base-image-zoom
-      v-base-image-error
-      :src="thumbnailUrl"
-      class="ui tiny image"
-    />
+    <img v-base-image-error :src="thumbnailUrl" class="ui tiny image" />
     <div class="content">
       <div class="header">{{ team.username }}</div>
+      <div class="description">Typ: {{ type }}</div>
       <div class="description">Bankanfragen: {{ requests }}</div>
       <div class="description">{{ hasPassedStatus }}</div>
       <div class="metadata">
@@ -27,14 +23,12 @@
 </template>
 
 <script>
-import baseImageZoom from "@/modules/base/directives/base-image-zoom";
 import baseImageError from "@/modules/base/directives/base-image-error";
 import { getRandomAvatarThumbnailUrl } from "@/modules/team/services/thumbnail-service";
 
 export default {
   name: "TeamListItem",
   directives: {
-    baseImageZoom,
     baseImageError,
   },
   props: {
@@ -49,6 +43,22 @@ export default {
     };
   },
   computed: {
+    type() {
+      let type = "";
+
+      switch (this.team.type) {
+        case "EXAMPLE":
+          type = "Beispiel";
+          break;
+        case "REGULAR":
+          type = "Regulär";
+          break;
+        default:
+          type = "Unbekannt";
+      }
+
+      return type;
+    },
     requests() {
       return Object.values(this.team.statistics).reduce(
         (sum, requests) => sum + requests,

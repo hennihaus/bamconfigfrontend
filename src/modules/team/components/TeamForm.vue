@@ -21,6 +21,32 @@
       </div>
 
       <div class="field">
+        <label class="save">Speichern</label>
+        <button
+          :disabled="isSubmitting"
+          :class="[meta.valid ? 'green' : 'red']"
+          class="ui fluid button"
+        >
+          Team speichern
+        </button>
+      </div>
+    </div>
+
+    <div class="two fields">
+      <div class="field">
+        <label>JMS-Queue</label>
+        <VeeField v-slot="{ field, errors }" name="jmsQueue">
+          <div class="ui left corner labeled input">
+            <input v-bind="field" type="text" />
+            <div class="ui left corner label">
+              <i class="asterisk icon" />
+            </div>
+          </div>
+          <BaseFormMessage :errors="errors" />
+        </VeeField>
+      </div>
+
+      <div class="field">
         <label>Passwort</label>
         <VeeField v-slot="{ field, errors }" name="password">
           <div class="ui action input left corner labeled">
@@ -93,19 +119,6 @@
       </VeeFieldArray>
     </div>
 
-    <div class="field">
-      <label>JMS-Queue</label>
-      <VeeField v-slot="{ field, errors }" name="jmsQueue">
-        <div class="ui left corner labeled input">
-          <input v-bind="field" type="text" />
-          <div class="ui left corner label">
-            <i class="asterisk icon" />
-          </div>
-        </div>
-        <BaseFormMessage :errors="errors" />
-      </VeeField>
-    </div>
-
     <VeeField v-slot="{ handleChange, value }" name="statistics">
       <BaseDragDrop
         :selected="value"
@@ -126,14 +139,6 @@
       </BaseDragDrop>
     </VeeField>
     <p />
-
-    <button
-      :disabled="isSubmitting"
-      :class="[meta.valid ? 'green' : 'red']"
-      class="ui fluid button"
-    >
-      Speichern
-    </button>
   </VeeForm>
 </template>
 
@@ -323,5 +328,9 @@ export default {
 .custom-label {
   font-size: 13px;
   font-weight: bold;
+}
+
+.save {
+  visibility: hidden;
 }
 </style>

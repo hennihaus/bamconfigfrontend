@@ -30,11 +30,9 @@
     </div>
   </div>
 
-  <slot name="banks">
-    <h4>Banken</h4>
-    <div>TODO</div>
-    <div class="ui divider" />
-  </slot>
+  <h4>Banken</h4>
+  <div>TODO</div>
+  <div class="ui divider" />
 </template>
 
 <script>

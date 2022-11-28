@@ -1,40 +1,91 @@
 <template>
-  <div v-if="!isLoading" class="ui middle aligned selection divided list">
-    <TeamListItem v-for="team in teams" :key="team.uuid" :team="team" />
+  <BasePagination :pagination="pagination" component="TeamList">
+    <template #items>
+      <TeamListItem v-for="team in teams" :key="team.uuid" :team="team" />
 
-    <BaseMessage
-      v-if="!teams.length"
-      message="Es wurden keine Teams gefunden."
-    />
-  </div>
-  <BaseLoading v-else />
+      <BaseMessage
+        v-if="!isLoading && !teams.length"
+        message="Es wurden keine Teams gefunden."
+      />
+    </template>
+    <template #filters>
+      <div class="filter">
+        <TeamListFilter :banks="banks" />
+      </div>
+    </template>
+  </BasePagination>
+  <BaseLoading v-if="isLoading" />
 </template>
 
 <script>
 import BaseLoading from "@/modules/base/components/BaseLoading.vue";
 import TeamListItem from "@/modules/team/components/TeamListItem.vue";
 import BaseMessage from "@/modules/base/components/BaseMessage.vue";
+import BasePagination from "@/modules/base/components/BasePagination.vue";
+import TeamListFilter from "@/modules/team/components/TeamListFilter.vue";
 
 export default {
   name: "TeamList",
-  components: { BaseMessage, TeamListItem, BaseLoading },
+  components: {
+    TeamListFilter,
+    BasePagination,
+    BaseMessage,
+    TeamListItem,
+    BaseLoading,
+  },
   data() {
     return {
       isLoading: true,
+      pagination: null,
       teams: [],
+      banks: [],
     };
   },
   created() {
-    this.fetchTeams();
+    this.$watch(
+      () => this.$route.query,
+      () => this.fetchAll(),
+      { immediate: true }
+    );
   },
   methods: {
-    fetchTeams() {
-      this.$teamApi
+    fetchAll() {
+      this.isLoading = true;
+      Promise.all([this.fetchBanks(), this.fetchTeams()]).finally(
+        () => (this.isLoading = false)
+      );
+    },
+    fetchBanks() {
+      return this.$bankApi
         .getAll()
-        .then((response) => (this.teams = response.items))
-        .catch(() => (this.teams = []))
-        .finally(() => (this.isLoading = false));
+        .then((banks) => (this.banks = banks))
+        .catch(() => (this.banks = []));
+    },
+    fetchTeams() {
+      let params = this.$route.query.cursor
+        ? { cursor: this.$route.query.cursor }
+        : { ...this.$route.query, limit: 8 };
+
+      if (Object.hasOwn(params, "hasPassed")) {
+        params = {
+          ...params,
+          hasPassed: params.hasPassed === "PASSED",
+        };
+      }
+      return this.$teamApi
+        .getAll(params)
+        .then((response) => {
+          this.pagination = response.pagination;
+          this.teams = response.items;
+        })
+        .catch(() => (this.teams = []));
     },
   },
 };
 </script>
+
+<style scoped>
+.filter {
+  width: 256.25px;
+}
+</style>
