@@ -1,8 +1,8 @@
 import { http } from "@/services/http-common";
 
 export class TeamApiService {
-  getAll() {
-    return http.get(`/teams`).then((response) => response.data);
+  getAll(params) {
+    return http.get(`/teams`, { params }).then((response) => response.data);
   }
 
   getOne(uuid) {
