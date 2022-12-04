@@ -17,7 +17,13 @@
     "edit-error": "Fehler beim Ändern der Bank",
     "not-found": "Bank nicht gefunden | Keine Banken gefunden"
   },
-  "base": {},
+  "base": {
+    "loading": "Daten werden geladen...",
+    "pagination-start": "Start",
+    "pagination-prev": "Vorherige",
+    "pagination-next": "Nächste",
+    "pagination-end": "Ende"
+  },
   "core": {
     "home": "Home",
     "home-description": "Das ist das Frontend zum Konfigurieren des Kurses BAM Businessintegration",

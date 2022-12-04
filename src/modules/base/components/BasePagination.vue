@@ -15,7 +15,7 @@
         :class="{ active: isFirstPage }"
         class="item"
       >
-        Start
+        {{ $t("base.pagination-start") }}
       </RouterLink>
       <RouterLink
         v-if="pagination.prev"
@@ -25,7 +25,7 @@
         }"
         class="item"
       >
-        Vorherige
+        {{ $t("base.pagination-prev") }}
       </RouterLink>
       <RouterLink
         v-if="pagination.next"
@@ -35,7 +35,7 @@
         }"
         class="item"
       >
-        Nächste
+        {{ $t("base.pagination-next") }}
       </RouterLink>
       <RouterLink
         :to="{
@@ -45,7 +45,7 @@
         :class="{ active: isLastPage }"
         class="item"
       >
-        Ende
+        {{ $t("base.pagination-end") }}
       </RouterLink>
     </div>
   </div>
