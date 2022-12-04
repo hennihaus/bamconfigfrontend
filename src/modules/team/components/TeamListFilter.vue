@@ -5,73 +5,73 @@
     class="ui form"
   >
     <div class="field">
-      <label>Benutzername</label>
-      <VeeField name="username" type="text" placeholder="Name" />
+      <label>{{ $t("team.username") }}</label>
+      <VeeField :placeholder="$t('common.name')" name="username" type="text" />
     </div>
 
     <div class="field">
-      <label>JMS-Queue</label>
-      <VeeField name="jmsQueue" type="text" placeholder="Name" />
+      <label>{{ $t("team.jms-queue") }}</label>
+      <VeeField :placeholder="$t('common.name')" name="jmsQueue" type="text" />
     </div>
 
     <div class="field">
-      <label>Bestanden</label>
+      <label>{{ $tc("team.passed", 1) }}</label>
       <div class="inline fields">
         <div class="field">
           <div class="ui radio checkbox">
             <VeeField name="hasPassed" type="radio" value="PASSED" />
-            <label>Ja</label>
+            <label>{{ $tc("team.passed-checkbox", 1) }}</label>
           </div>
         </div>
         <div class="field">
           <div class="ui radio checkbox">
             <VeeField name="hasPassed" type="radio" value="NOT_PASSED" />
-            <label>Nein</label>
+            <label>{{ $tc("team.passed-checkbox", 0) }}</label>
           </div>
         </div>
         <div class="field">
           <div class="ui radio checkbox">
             <VeeField name="hasPassed" type="radio" :value="null" />
-            <label>Beide</label>
+            <label>{{ $tc("team.passed-checkbox", 2) }}</label>
           </div>
         </div>
       </div>
     </div>
 
     <div class="field">
-      <label>Typ</label>
+      <label>{{ $tc("team.type") }}</label>
       <div class="inline fields">
         <div class="field">
           <div class="ui radio checkbox">
             <VeeField name="type" type="radio" value="EXAMPLE" />
-            <label>Beispiel</label>
+            <label>{{ $tc("team.type-checkbox", 0) }}</label>
           </div>
         </div>
         <div class="field">
           <div class="ui radio checkbox">
             <VeeField name="type" type="radio" value="REGULAR" />
-            <label>Regulär</label>
+            <label>{{ $tc("team.type-checkbox", 1) }}</label>
           </div>
         </div>
         <div class="field">
           <div class="ui radio checkbox">
             <VeeField name="type" type="radio" :value="null" />
-            <label>Beide</label>
+            <label>{{ $tc("team.type-checkbox", 2) }}</label>
           </div>
         </div>
       </div>
     </div>
 
     <div class="field">
-      <label>Anfragen</label>
+      <label>{{ $tc("team.request", 2) }}</label>
       <div class="two fields">
         <div class="field">
           <VeeField
+            :placeholder="$t('team.request-min-placeholder')"
             name="minRequests"
             type="number"
             min="0"
             step="1"
-            placeholder="Min"
             onfocus="this.previousValue = this.value"
             onkeydown="this.previousValue = this.value"
             oninput="validity.valid || (value = this.previousValue)"
@@ -79,11 +79,11 @@
         </div>
         <div class="field">
           <VeeField
+            :placeholder="$t('team.request-max-placeholder')"
             name="maxRequests"
             type="number"
             min="0"
             step="1"
-            placeholder="Max"
             onfocus="this.previousValue = this.value"
             onkeydown="this.previousValue = this.value"
             oninput="validity.valid || (value = this.previousValue)"
@@ -93,19 +93,27 @@
     </div>
 
     <div class="field">
-      <label>Student</label>
+      <label>{{ $tc("team.student", 1) }}</label>
       <div class="two fields">
         <div class="field">
-          <VeeField name="studentFirstname" type="text" placeholder="Vorname" />
+          <VeeField
+            :placeholder="$t('team.student-firstname')"
+            name="studentFirstname"
+            type="text"
+          />
         </div>
         <div class="field">
-          <VeeField name="studentLastname" type="text" placeholder="Nachname" />
+          <VeeField
+            :placeholder="$t('team.student-lastname')"
+            name="studentLastname"
+            type="text"
+          />
         </div>
       </div>
     </div>
 
     <div v-if="banks.length" class="grouped fields">
-      <label>Banken</label>
+      <label>{{ $tc("core.bank", 2) }}</label>
       <div v-for="bank in banks" :key="bank.uuid" class="field">
         <div class="ui checkbox">
           <VeeField name="banks" type="checkbox" :value="bank.name" />
@@ -116,7 +124,7 @@
 
     <div class="ui fluid buttons">
       <button class="ui olive button" @click="handleSubmit($event, onSubmit)">
-        Suchen
+        {{ $t("common.search") }}
       </button>
       <button
         class="ui orange icon reset button"

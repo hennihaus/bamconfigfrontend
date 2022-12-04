@@ -9,8 +9,10 @@
     <img v-base-image-error :src="thumbnailUrl" class="ui tiny image" />
     <div class="content">
       <div class="header">{{ team.username }}</div>
-      <div class="description">Typ: {{ type }}</div>
-      <div class="description">Bankanfragen: {{ requests }}</div>
+      <div class="description">{{ $t("team.type") }}: {{ type }}</div>
+      <div class="description">
+        {{ $tc("team.request", 2) }}: {{ requests }}
+      </div>
       <div class="description">{{ hasPassedStatus }}</div>
       <div class="metadata">
         <span v-for="(student, index) in team.students" :key="student.uuid">
@@ -66,7 +68,9 @@ export default {
       );
     },
     hasPassedStatus() {
-      return this.team.hasPassed ? "Bestanden" : "Nicht Bestanden";
+      return this.team.hasPassed
+        ? this.$tc("team.passed", 1)
+        : this.$tc("team.passed", 0);
     },
   },
 };

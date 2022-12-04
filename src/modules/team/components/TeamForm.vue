@@ -8,8 +8,12 @@
   >
     <div class="two fields">
       <div class="field">
-        <label>Username</label>
-        <VeeField v-slot="{ field, errors }" name="username">
+        <label>{{ $t("team.username") }}</label>
+        <VeeField
+          v-slot="{ field, errors }"
+          :label="$t('team.username')"
+          name="username"
+        >
           <div class="ui left corner labeled input">
             <input v-bind="field" type="text" />
             <div class="ui left corner label">
@@ -21,21 +25,25 @@
       </div>
 
       <div class="field">
-        <label class="save">Speichern</label>
+        <label class="save">Invisible</label>
         <button
           :disabled="isSubmitting"
           :class="[meta.valid ? 'green' : 'red']"
           class="ui fluid button"
         >
-          Team speichern
+          {{ $t("team.save") }}
         </button>
       </div>
     </div>
 
     <div class="two fields">
       <div class="field">
-        <label>JMS-Queue</label>
-        <VeeField v-slot="{ field, errors }" name="jmsQueue">
+        <label>{{ $t("team.jms-queue") }}</label>
+        <VeeField
+          v-slot="{ field, errors }"
+          :label="$t('team.jms-queue')"
+          name="jmsQueue"
+        >
           <div class="ui left corner labeled input">
             <input v-bind="field" type="text" />
             <div class="ui left corner label">
@@ -47,8 +55,12 @@
       </div>
 
       <div class="field">
-        <label>Passwort</label>
-        <VeeField v-slot="{ field, errors }" name="password">
+        <label>{{ $t("team.password") }}</label>
+        <VeeField
+          v-slot="{ field, errors }"
+          :label="$t('team.password')"
+          name="password"
+        >
           <div class="ui action input left corner labeled">
             <input v-bind="field" type="text" />
             <div class="ui left corner label">
@@ -59,7 +71,7 @@
               class="ui button"
               @click="setFieldValue('password', generatePassword())"
             >
-              Generieren
+              {{ $t("common.generate") }}
             </button>
           </div>
           <BaseFormMessage :errors="errors" />
@@ -68,17 +80,18 @@
     </div>
 
     <div class="field">
-      <label>Studenten</label>
+      <label>{{ $tc("team.student", 2) }}</label>
       <VeeFieldArray v-slot="{ fields, push, remove, replace }" name="students">
         <div v-for="(entry, idx) in fields" :key="entry.key" class="two fields">
           <div class="field">
             <VeeField
               v-slot="{ field, errors }"
+              :label="$t('team.student-firstname')"
               :name="`students[${idx}].firstname`"
             >
               <input
                 v-bind="field"
-                placeholder="Vorname"
+                :placeholder="$t('team.student-firstname')"
                 type="text"
                 @blur="validateField(`students[${idx}].lastname`)"
               />
@@ -88,12 +101,13 @@
           <div class="field">
             <VeeField
               v-slot="{ field, errors }"
+              :label="$t('team.student-lastname')"
               :name="`students[${idx}].lastname`"
             >
               <div class="ui action input">
                 <input
                   v-bind="field"
-                  placeholder="Nachname"
+                  :placeholder="$t('team.student-lastname')"
                   type="text"
                   @blur="validateField(`students[${idx}].lastname`)"
                 />
@@ -126,15 +140,23 @@
         @on-drop-selected="handleChange($event, false)"
       >
         <template #selectedLabel>
-          <label class="custom-label">
-            <u>Zu</u> migrierende Banken (Drag & Drop)
-          </label>
+          <i18n-t
+            keypath="team.banks-migration"
+            tag="label"
+            class="custom-label"
+          >
+            <u>{{ $tc("common.to", 1) }}</u>
+          </i18n-t>
         </template>
 
         <template #unselectedLabel>
-          <label class="custom-label">
-            <u>Nicht zu</u> migrierende Banken (Drag & Drop)
-          </label>
+          <i18n-t
+            keypath="team.banks-migration"
+            tag="label"
+            class="custom-label"
+          >
+            <u>{{ $tc("common.to", 0) }}</u>
+          </i18n-t>
         </template>
       </BaseDragDrop>
     </VeeField>
@@ -234,7 +256,7 @@ export default {
         .map((_, index) => `students[${index}].firstname`)
         .map((key, index) => ({
           [key]: {
-            requiredName: [`@students[${index}].lastname`, "Vorname"],
+            requiredName: [`@students[${index}].lastname`],
             minOptional: 2,
             maxOptional: 50,
           },
@@ -245,7 +267,7 @@ export default {
         .map((_, index) => `students[${index}].lastname`)
         .map((key, index) => ({
           [key]: {
-            requiredName: [`@students[${index}].firstname`, "Nachname"],
+            requiredName: [`@students[${index}].firstname`],
             minOptional: 2,
             maxOptional: 50,
           },

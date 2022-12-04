@@ -1,6 +1,6 @@
 <template>
   <template v-if="!isLoading">
-    <h1>Team bearbeiten</h1>
+    <h1>{{ $t("team.edit") }}</h1>
     <BaseMessage v-if="message" :message="message" />
     <TeamForm
       v-if="hasData"
@@ -66,7 +66,7 @@ export default {
             },
           });
         })
-        .catch(() => (this.message = "Fehler beim Ändern des Teams."))
+        .catch(() => (this.message = this.$t("team.edit-error")))
         .finally(() => (this.isLoading = false));
     },
     fetchAll() {
@@ -82,7 +82,7 @@ export default {
           this.message = "";
           this.team = team;
         })
-        .catch(() => (this.message = "Team wurde nicht gefunden."));
+        .catch(() => (this.message = this.$tc("team.not-found", 1)));
     },
     fetchBanks() {
       return this.$bankApi

@@ -4,18 +4,18 @@
       <TeamDetailsView :team="team" :thumbnail-url="thumbnailUrl" />
 
       <button class="ui tiny red labeled icon button" @click="deleteTeam">
-        <i class="trash icon" /> Team löschen
+        <i class="trash icon" /> {{ $t("team.delete") }}
       </button>
       <RouterLink :to="{ name: 'TeamEdit', params: { uuid, thumbnailUrl } }">
         <button class="ui tiny yellow labeled icon button">
-          <i class="write icon" /> Team bearbeiten
+          <i class="write icon" /> {{ $t("team.edit") }}
         </button>
       </RouterLink>
       <button class="ui tiny orange labeled icon button" @click="deleteQueue">
-        <i class="remove icon" /> JMS-Queue zurücksetzen
+        <i class="remove icon" /> {{ $t("team.reset-jms-queue") }}
       </button>
       <button class="ui tiny orange labeled icon button" @click="resetStats">
-        <i class="remove icon" /> Anfragen zurücksetzen
+        <i class="remove icon" /> {{ $t("team.reset-requests") }}
       </button>
     </template>
 
@@ -74,12 +74,12 @@ export default {
         })
         .catch(() => {
           this.type = "negative";
-          this.message = "Team wurde nicht gefunden.";
+          this.message = this.$tc("team.not-found", 1);
         })
         .finally(() => (this.isLoading = false));
     },
     deleteTeam() {
-      if (confirm("Team wirklich löschen?")) {
+      if (confirm(this.$t("team.delete-warning"))) {
         this.isLoading = true;
 
         this.$teamApi
@@ -90,34 +90,32 @@ export default {
           })
           .catch(() => {
             this.type = "negative";
-            this.message = "Team konnte nicht gelöscht werden.";
+            this.message = this.$t("team.delete-error");
           })
           .finally(() => (this.isLoading = false));
       }
     },
     deleteQueue() {
-      if (confirm("JMS-Queue wirklich leeren?")) {
+      if (confirm(this.$t("team.reset-jms-queue-warning"))) {
         this.isLoading = true;
 
         this.$brokerApi
           .deleteQueueByName(this.team.jmsQueue)
           .then(() => {
             this.type = "positive";
-            this.message = `Die JMS-Queue ${this.team.jmsQueue} wurde erfolgreich auf den Uhrsprungszustand zurückgesetzt.`;
+            this.message = this.$t("team.reset-jms-queue-success", {
+              jmsQueue: this.team.jmsQueue,
+            });
           })
           .catch(() => {
             this.type = "negative";
-            this.message = "JMS-Queue konnte nicht geleert werden.";
+            this.message = this.$t("team.reset-jms-queue-error");
           })
           .finally(() => (this.isLoading = false));
       }
     },
     resetStats() {
-      if (
-        confirm(
-          "Statistiken wirklich zurücksetzen. Der Status wird damit auf nicht bestanden zurückgesetzt?"
-        )
-      ) {
+      if (confirm(this.$t("team.reset-requests-warning"))) {
         this.isLoading = true;
 
         this.$teamApi
@@ -128,7 +126,7 @@ export default {
           })
           .catch(() => {
             this.type = "negative";
-            this.message = "Statistiken konnten nicht zurückgesetzt werden.";
+            this.message = this.$t("team.reset-requests-error");
           })
           .finally(() => (this.isLoading = false));
       }

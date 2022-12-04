@@ -8,29 +8,31 @@
     </div>
 
     <div class="four wide column">
-      <h4>Benutzername</h4>
+      <h4>{{ $t("team.username") }}</h4>
       <div>{{ team.username }}</div>
-      <h4>Passwort</h4>
+      <h4>{{ $t("team.password") }}</h4>
       <div>{{ team.password }}</div>
     </div>
 
     <div class="four wide column">
-      <h4>JMS-Queue</h4>
+      <h4>{{ $t("team.jms-queue") }}</h4>
       <div>{{ team.jmsQueue }}</div>
-      <h4>Aktueller Status</h4>
+      <h4>{{ $t("team.status") }}</h4>
       <div>{{ hasPassedStatus }}</div>
     </div>
 
     <div class="four wide column">
-      <h4>Studenten</h4>
+      <h4>{{ $tc("team.student", 2) }}</h4>
       <div v-for="student in team.students" :key="student.uuid">
         {{ student.firstname }} {{ student.lastname }}
       </div>
-      <div v-if="hasNoStudents">Keine Studenten vorhanden</div>
+      <div v-if="hasNoStudents">
+        {{ $tc("team.student", 0) }} {{ $t("common.available") }}
+      </div>
     </div>
   </div>
 
-  <h4>Banken</h4>
+  <h4>{{ $tc("core.bank", 2) }}</h4>
   <div>TODO</div>
   <div class="ui divider" />
 </template>
@@ -60,7 +62,9 @@ export default {
       return !this.team.students.length;
     },
     hasPassedStatus() {
-      return this.team.hasPassed ? "Bestanden" : "Nicht Bestanden";
+      return this.team.hasPassed
+        ? this.$tc("team.passed", 1)
+        : this.$tc("team.passed", 0);
     },
   },
 };

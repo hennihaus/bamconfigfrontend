@@ -5,7 +5,7 @@
 
       <BaseMessage
         v-if="!isLoading && !teams.length"
-        message="Es wurden keine Teams gefunden."
+        :message="$tc('team.not-found', 2)"
       />
     </template>
     <template #filters>

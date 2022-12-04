@@ -1,14 +1,26 @@
 import { fileURLToPath, URL } from "node:url";
-
 import { defineConfig } from "vite";
+import { resolve, dirname } from "node:path";
 import vue from "@vitejs/plugin-vue";
+import vueI18n from "@intlify/unplugin-vue-i18n/vite";
 
 const HOST = "0.0.0.0";
 const PORT = 4200;
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    vueI18n({
+      include: resolve(
+        dirname(fileURLToPath(import.meta.url)),
+        "./src/locales/*.json"
+      ),
+      runtimeOnly: true,
+      compositionOnly: false,
+      fullInstall: true,
+    }),
+  ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

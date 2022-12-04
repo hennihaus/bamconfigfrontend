@@ -32,7 +32,7 @@ const router = createRouter({
         },
         // task
         {
-          path: "/tasks",
+          path: "tasks",
           name: "TheTask",
           component: TheTask,
           children: [
@@ -57,7 +57,7 @@ const router = createRouter({
         },
         // bank
         {
-          path: "/banks",
+          path: "banks",
           name: "TheBank",
           component: TheBank,
           children: [
@@ -82,7 +82,7 @@ const router = createRouter({
         },
         // team
         {
-          path: "/teams",
+          path: "teams",
           name: "TheTeam",
           component: TheTeam,
           children: [
@@ -104,7 +104,7 @@ const router = createRouter({
               props: true,
             },
             {
-              path: "/create",
+              path: "create",
               name: "TeamCreate",
               component: TeamCreate,
             },
