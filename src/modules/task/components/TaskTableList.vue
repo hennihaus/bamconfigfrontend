@@ -1,18 +1,18 @@
 <template>
-  <h4>Parameter</h4>
+  <h4>{{ $t("task.parameter") }}</h4>
   <table class="ui celled table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Typ</th>
-        <th>Beschreibung</th>
-        <th>Beispiel</th>
+        <th>{{ $t("task.parameter-name") }}</th>
+        <th>{{ $t("task.parameter-type") }}</th>
+        <th>{{ $t("task.parameter-description") }}</th>
+        <th>{{ $t("task.parameter-example") }}</th>
       </tr>
       <tr class="invisible">
-        <th>Statuscode</th>
-        <th>Content-Type</th>
-        <th>Beschreibung</th>
-        <th>Beispiel</th>
+        <th>{{ $t("task.response-http-status-code") }}</th>
+        <th>{{ $t("task.response-content-type") }}</th>
+        <th>{{ $t("task.response-description") }}</th>
+        <th>{{ $t("task.response-example") }}</th>
       </tr>
     </thead>
     <tbody>
@@ -35,20 +35,20 @@
     </tbody>
   </table>
 
-  <h4>Antworten</h4>
+  <h4>{{ $tc("task.response", 2) }}</h4>
   <table class="ui celled table">
     <thead>
       <tr class="invisible">
-        <th>Name</th>
-        <th>Typ</th>
-        <th>Beschreibung</th>
-        <th>Beispiel</th>
+        <th>{{ $t("task.parameter-name") }}</th>
+        <th>{{ $t("task.parameter-type") }}</th>
+        <th>{{ $t("task.parameter-description") }}</th>
+        <th>{{ $t("task.parameter-example") }}</th>
       </tr>
       <tr>
-        <th>Statuscode</th>
-        <th>Content-Type</th>
-        <th>Beschreibung</th>
-        <th>Beispiel</th>
+        <th>{{ $t("task.response-http-status-code") }}</th>
+        <th>{{ $t("task.response-content-type") }}</th>
+        <th>{{ $t("task.response-description") }}</th>
+        <th>{{ $t("task.response-example") }}</th>
       </tr>
     </thead>
     <tbody>
@@ -93,7 +93,10 @@ export default {
           type: parameter.type.toLowerCase(),
           description: parameter.description.length
             ? parameter.description
-            : "Keine Beschreibung vorhanden",
+            : `${this.$t("task.parameter-description")} ${this.$tc(
+                "common.available",
+                0
+              )}`,
         };
       });
     },
@@ -108,7 +111,10 @@ export default {
             httpStatusCode:
               response.httpStatusCode > 0
                 ? response.httpStatusCode
-                : "Kein Status",
+                : `${this.$t("common.status")} ${this.$tc(
+                    "common.available",
+                    0
+                  )}`,
           };
         });
     },

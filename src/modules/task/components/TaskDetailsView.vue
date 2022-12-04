@@ -1,12 +1,15 @@
 <template>
   <h1>{{ task.title }}</h1>
-  <h3>{{ task.integrationStep }}. Integrationsschritt</h3>
+  <h3>
+    {{ task.integrationStep }}{{ integrationStep }}
+    {{ $t("task.integration-step") }}
+  </h3>
 
   <div class="ui divider" />
 
   <div id="task-details" class="ui grid"></div>
 
-  <h4>Aufgabenstellung</h4>
+  <h4>{{ $t("task.description") }}</h4>
   <p v-dompurify-html="taskDescription" />
 
   <slot name="details">
@@ -31,22 +34,25 @@
       </div>
 
       <div class="four wide column">
-        <h4>Banken</h4>
+        <h4>{{ $tc("core.bank", 2) }}</h4>
         <template v-for="bank in task.banks" :key="bank.uuid">
           <div v-if="bank.isActive">
             {{ bank.name }}
           </div>
         </template>
-        <div v-if="hasNoAsyncBanksActivated">Alle Banken sind deaktiviert</div>
+        <div v-if="hasNoAsyncBanksActivated">
+          {{ $t("task.no-async-banks") }}
+        </div>
       </div>
 
       <div class="four wide column">
-        <h4>Betreuer</h4>
-        <div>Name: {{ contactName }}</div>
+        <h4>{{ $t("task.contact") }}</h4>
+        <div>{{ $t("common.name") }}: {{ contactName }}</div>
         <div>
-          E-Mail: <a :href="contactEmailLink">{{ task.contact.email }}</a>
+          {{ $t("task.email") }}:
+          <a :href="contactEmailLink">{{ task.contact.email }}</a>
         </div>
-        <h4 v-if="$slots.options">Optionen</h4>
+        <h4 v-if="$slots.options">{{ $tc("task.option", 2) }}</h4>
         <slot name="options" />
       </div>
     </Teleport>
@@ -98,7 +104,22 @@ export default {
     taskDescription() {
       return this.task.description && this.task.description.length
         ? this.task.description
-        : "Keine Aufgabenstellung vorhanden";
+        : `${this.$t("task.description")} ${this.$tc("common.available", 0)}`;
+    },
+    integrationStep() {
+      if (this.$i18n.locale === "de") {
+        return ".";
+      }
+      if (this.task.integrationStep === 1) {
+        return "st";
+      }
+      if (this.task.integrationStep === 2) {
+        return "nd";
+      }
+      if (this.task.integrationStep === 3) {
+        return "rd";
+      }
+      return "th";
     },
   },
 };

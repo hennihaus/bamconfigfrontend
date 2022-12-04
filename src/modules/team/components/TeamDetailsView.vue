@@ -27,7 +27,7 @@
         {{ student.firstname }} {{ student.lastname }}
       </div>
       <div v-if="hasNoStudents">
-        {{ $tc("team.student", 0) }} {{ $t("common.available") }}
+        {{ $tc("team.student", 0) }} {{ $tc("common.available", 1) }}
       </div>
     </div>
   </div>

@@ -12,7 +12,7 @@
 
     <BaseMessage
       v-if="!tasks.length"
-      message="Es wurden keine Aufgaben gefunden."
+      :message="$tc('task.not-found', 2)"
       size="massive"
     />
   </template>

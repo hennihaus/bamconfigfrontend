@@ -5,20 +5,14 @@
     <BaseMessage
       v-if="hasNoAsyncBanksActivated"
       type="warning"
-      message="Alle asynchrone Banken sind deaktiviert!"
+      :message="$t('task.no-async-banks')"
     >
       <template #description>
-        <p>
-          3. Integrationsschritt ist dementsprechend nicht mehr umsetzbar und
-          wird daher nicht mehr in der Aufgabenstellung exportiert.
-        </p>
+        <p>{{ $t("task.no-async-banks-description") }}</p>
       </template>
     </BaseMessage>
 
-    <BaseMessage
-      v-if="!tasks.length"
-      message="Es wurden keine Aufgaben gefunden."
-    />
+    <BaseMessage v-if="!tasks.length" :message="$tc('task.not-found', 2)" />
   </div>
   <BaseLoading v-else />
 </template>

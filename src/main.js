@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import router from "@/router";
 import dompurify from "vue-dompurify-html";
+import router from "@/plugins/router";
 import http from "@/plugins/http";
 import i18n from "@/plugins/i18n";
 import veeValidate from "@/plugins/vee-validate";
