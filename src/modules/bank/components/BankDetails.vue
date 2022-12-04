@@ -8,21 +8,21 @@
         class="ui tiny red labeled icon button"
         @click="updateBank(false)"
       >
-        <i class="power off icon" /> Bank deaktivieren
+        <i class="power off icon" /> {{ $t("bank.deactivate") }}
       </button>
       <button
         v-if="isAsyncBankNotActive"
         class="ui tiny green labeled icon button"
         @click="updateBank(true)"
       >
-        <i class="power off icon" /> Bank aktivieren
+        <i class="power off icon" /> {{ $t("bank.activate") }}
       </button>
       <RouterLink
         v-if="bank.creditConfiguration"
         :to="{ name: 'BankEdit', params: { uuid } }"
       >
         <button class="ui tiny yellow labeled icon button">
-          <i class="write icon" /> Bank bearbeiten
+          <i class="write icon" /> {{ $t("bank.edit") }}
         </button>
       </RouterLink>
     </template>
@@ -79,7 +79,7 @@ export default {
           this.bank = bank;
           this.message = "";
         })
-        .catch(() => (this.message = "Bank wurde nicht gefunden."))
+        .catch(() => (this.message = this.$tc("bank.not-found", 1)))
         .finally(() => (this.isLoading = false));
     },
     updateBank(isActive) {
@@ -91,7 +91,7 @@ export default {
           this.bank = bank;
           this.message = "";
         })
-        .catch(() => (this.message = "Bank konnte nicht geupdated werden."))
+        .catch(() => (this.message = this.$t("bank.edit-error")))
         .finally(() => (this.isLoading = false));
     },
   },

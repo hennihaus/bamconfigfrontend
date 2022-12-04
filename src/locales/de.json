@@ -1,5 +1,22 @@
 {
-  "bank": {},
+  "bank": {
+    "jms-queue": "JMS-Queue",
+    "interface": "Schnittstelle",
+    "active-status": "Deaktiviert | Aktiviert | undefined",
+    "async-status": "SOAP/REST | JMS | undefined",
+    "credit-configuration": "Krediteinstellungen",
+    "credit-configuration-min-amount-in-euros": "Kreditminimum",
+    "credit-configuration-max-amount-in-euros": "Kreditmaximum",
+    "credit-configuration-min-term-in-months": "Mindestlaufzeit",
+    "credit-configuration-max-term-in-months": "Maximallaufzeit",
+    "credit-configuration-min-schufa-rating": "Min. Schufa-Rating",
+    "credit-configuration-max-schufa-rating": "Max. Schufa-Rating",
+    "deactivate": "Bank deaktivieren",
+    "activate": "Bank aktivieren",
+    "edit": "Bank bearbeiten",
+    "edit-error": "Fehler beim Ändern der Bank",
+    "not-found": "Bank nicht gefunden | Keine Banken gefunden"
+  },
   "base": {},
   "core": {
     "home": "Home",
@@ -19,7 +36,6 @@
     "username": "Benutzername",
     "password": "Passwort",
     "jms-queue": "JMS-Queue",
-    "status": "Status",
     "student": "Keine Studenten | Student | Studenten",
     "student-firstname": "Vorname",
     "student-lastname": "Nachname",
@@ -46,9 +62,11 @@
     "reset-requests": "Bankanfragen zurücksetzen",
     "reset-requests-warning": "Statistiken wirklich zurücksetzen? Der Status wird damit auf nicht bestanden zurückgesetzt.",
     "reset-requests-error": "Statistiken konnten nicht zurückgesetzt werden",
-    "not-found": "Team wurde nicht gefunden | Keine Teams gefunden"
+    "not-found": "Team nicht gefunden | Keine Teams gefunden"
   },
   "common": {
+    "status": "Status",
+    "counter": "Keine | Verschiedene | Alle",
     "name": "Name",
     "available": "vorhanden",
     "search": "Suchen",

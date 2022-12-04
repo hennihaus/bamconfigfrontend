@@ -17,7 +17,7 @@
     <div class="four wide column">
       <h4>{{ $t("team.jms-queue") }}</h4>
       <div>{{ team.jmsQueue }}</div>
-      <h4>{{ $t("team.status") }}</h4>
+      <h4>{{ $t("common.status") }}</h4>
       <div>{{ hasPassedStatus }}</div>
     </div>
 

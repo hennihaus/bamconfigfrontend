@@ -2,10 +2,7 @@
   <div v-if="!isLoading" class="ui middle aligned selection divided list">
     <BankListItem v-for="bank in banks" :key="bank.uuid" :bank="bank" />
 
-    <BaseMessage
-      v-if="!banks.length"
-      message="Es wurden keine Banken gefunden."
-    />
+    <BaseMessage v-if="!banks.length" :message="$tc('bank.not-found', 2)" />
   </div>
   <BaseLoading v-else />
 </template>
