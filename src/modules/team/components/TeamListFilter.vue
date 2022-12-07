@@ -15,7 +15,7 @@
     </div>
 
     <div class="field">
-      <label>{{ $tc("team.passed", 1) }}</label>
+      <label>{{ capitalizePassed }}</label>
       <div class="inline fields">
         <div class="field">
           <div class="ui radio checkbox">
@@ -166,6 +166,14 @@ export default {
         ...this.$route.query,
       },
     };
+  },
+  computed: {
+    capitalizePassed() {
+      return (
+        this.$tc("team.passed", 1).charAt(0).toUpperCase() +
+        this.$tc("team.passed", 1).slice(1)
+      );
+    },
   },
   methods: {
     onReset(values, { resetForm }) {

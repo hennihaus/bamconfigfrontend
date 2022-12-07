@@ -24,8 +24,10 @@
 
     <div class="four wide column">
       <h4>{{ $tc("core.team", 2) }}</h4>
-      <div v-if="bank.isAsync">{{ $tc("common.counter", 1) }}</div>
-      <div v-else>{{ $tc("common.counter", 2) }}</div>
+      <div v-if="bank.isAsync">
+        {{ $tc("common.counter", 1).toLowerCase() }}
+      </div>
+      <div v-else>{{ $tc("common.counter", 2).toLowerCase() }}</div>
     </div>
   </div>
   <div class="ui divider"></div>

@@ -11,11 +11,13 @@
   </div>
   <div>
     {{ $t("bank.credit-configuration-min-term-in-months") }}:
-    {{ creditConfiguration.minTermInMonths }} Monate
+    {{ creditConfiguration.minTermInMonths }}
+    {{ $tc("bank.credit-configuration-month", 2) }}
   </div>
   <div>
     {{ $t("bank.credit-configuration-max-term-in-months") }}:
-    {{ creditConfiguration.maxTermInMonths }} Monate
+    {{ creditConfiguration.maxTermInMonths }}
+    {{ $tc("bank.credit-configuration-month", 2) }}
   </div>
   <div>
     {{ $t("bank.credit-configuration-min-schufa-rating") }}:

@@ -44,7 +44,11 @@ export default {
   created() {
     this.$watch(
       () => this.$route.query,
-      () => this.fetchAll(),
+      (newQuery, oldQuery) => {
+        if (JSON.stringify(newQuery) !== JSON.stringify(oldQuery)) {
+          this.fetchAll();
+        }
+      },
       { immediate: true }
     );
   },

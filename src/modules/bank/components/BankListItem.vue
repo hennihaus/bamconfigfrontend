@@ -47,8 +47,8 @@ export default {
   computed: {
     activeStatus() {
       return this.bank.isActive
-        ? this.$tc("bank.active-status", 1)
-        : this.$tc("bank.active-status", 0);
+        ? this.$tc("bank.active-status", 1).toLowerCase()
+        : this.$tc("bank.active-status", 0).toLowerCase();
     },
     asyncStatus() {
       return this.bank.isAsync

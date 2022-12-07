@@ -3,7 +3,11 @@
     <template v-if="team">
       <TeamDetailsView :team="team" :thumbnail-url="thumbnailUrl" />
 
-      <button class="ui tiny red labeled icon button" @click="deleteTeam">
+      <button
+        v-if="isRegular"
+        class="ui tiny red labeled icon button"
+        @click="deleteTeam"
+      >
         <i class="trash icon" /> {{ $t("team.delete") }}
       </button>
       <RouterLink :to="{ name: 'TeamEdit', params: { uuid, thumbnailUrl } }">
@@ -53,6 +57,11 @@ export default {
       message: "",
       type: "",
     };
+  },
+  computed: {
+    isRegular() {
+      return this.team.type === "REGULAR";
+    },
   },
   watch: {
     uuid: {

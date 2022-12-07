@@ -13,12 +13,19 @@
       <div class="description">
         {{ $tc("team.request", 2) }}: {{ requests }}
       </div>
-      <div class="description">{{ hasPassedStatus }}</div>
+      <div class="description">
+        {{ $t("common.status") }}: {{ hasPassedStatus }}
+      </div>
       <div class="metadata">
-        <span v-for="(student, index) in team.students" :key="student.uuid">
-          {{ student.firstname }} {{ student.lastname
-          }}<span v-if="index !== team.students.length - 1">, </span>
-        </span>
+        <template v-if="team.students.length">
+          <span v-for="(student, index) in team.students" :key="student.uuid">
+            {{ student.firstname }} {{ student.lastname
+            }}<span v-if="index !== team.students.length - 1">, </span>
+          </span>
+        </template>
+        <template v-else>
+          {{ $tc("team.student", 0) }}
+        </template>
       </div>
     </div>
   </RouterLink>

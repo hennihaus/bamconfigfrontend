@@ -11,10 +11,10 @@ import "./assets/main.css";
 
 const app = createApp(App);
 
+app.use(veeValidate);
+app.use(i18n);
 app.use(router);
 app.use(dompurify);
 app.use(http);
-app.use(i18n);
-app.use(veeValidate);
 
 app.mount("#app");

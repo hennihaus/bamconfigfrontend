@@ -1,5 +1,7 @@
 <template>
   <div class="ui menu">
+    <TheLanguage />
+
     <RouterLink
       :to="{ name: 'TheHome' }"
       exact-active-class="active"
@@ -23,10 +25,11 @@
 
 <script>
 import TheHeaderSidebar from "@/modules/core/components/TheHeaderSidebar.vue";
+import TheLanguage from "@/modules/core/components/TheLanguage.vue";
 
 export default {
   name: "TheHeader",
-  components: { TheHeaderSidebar },
+  components: { TheLanguage, TheHeaderSidebar },
   emits: ["printTasks"],
 };
 </script>

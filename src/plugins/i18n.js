@@ -13,8 +13,8 @@ const numberFormats = {
 };
 
 const i18n = createI18n({
-  locale: "de",
-  fallbackLocale: "de",
+  locale: import.meta.env.VITE_I18N_LOCALE,
+  fallbackLocale: import.meta.env.VITE_I18N_FALLBACK_LOCALE,
   legacy: true,
   messages: {
     en,

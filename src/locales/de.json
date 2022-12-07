@@ -7,6 +7,7 @@
     "credit-configuration": "Krediteinstellungen",
     "credit-configuration-min-amount-in-euros": "Kreditminimum",
     "credit-configuration-max-amount-in-euros": "Kreditmaximum",
+    "credit-configuration-month": "Monat | Monate",
     "credit-configuration-min-term-in-months": "Mindestlaufzeit",
     "credit-configuration-max-term-in-months": "Maximallaufzeit",
     "credit-configuration-min-schufa-rating": "Min. Schufa-Rating",

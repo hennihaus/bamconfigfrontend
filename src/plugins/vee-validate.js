@@ -1,6 +1,6 @@
 import { configure, defineRule } from "vee-validate";
 import { max, min, required } from "@vee-validate/rules";
-import { localize, setLocale } from "@vee-validate/i18n";
+import { localize } from "@vee-validate/i18n";
 import en from "@vee-validate/i18n/dist/locale/en.json";
 import de from "@vee-validate/i18n/dist/locale/de.json";
 
@@ -32,7 +32,6 @@ const veeValidate = {
         },
       }),
     });
-    setLocale("de");
 
     defineRule("required", required);
     defineRule("min", min);
