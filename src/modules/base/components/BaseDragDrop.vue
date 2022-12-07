@@ -17,7 +17,9 @@
         >
           {{ item.id }}
         </div>
-        <div v-if="!selectedItems.length" class="ui segment">Leer</div>
+        <div v-if="!selectedItems.length" class="ui segment">
+          {{ $tc("common.counter", 0) }}
+        </div>
       </div>
     </div>
 
@@ -38,7 +40,9 @@
         >
           {{ item.id }}
         </div>
-        <div v-if="!unselectedItems.length" class="ui segment">Leer</div>
+        <div v-if="!unselectedItems.length" class="ui segment">
+          {{ $tc("common.counter", 0) }}
+        </div>
       </div>
     </div>
   </div>

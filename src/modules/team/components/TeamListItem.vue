@@ -9,14 +9,23 @@
     <img v-base-image-error :src="thumbnailUrl" class="ui tiny image" />
     <div class="content">
       <div class="header">{{ team.username }}</div>
-      <div class="description">Typ: {{ type }}</div>
-      <div class="description">Bankanfragen: {{ requests }}</div>
-      <div class="description">{{ hasPassedStatus }}</div>
+      <div class="description">{{ $t("team.type") }}: {{ type }}</div>
+      <div class="description">
+        {{ $tc("team.request", 2) }}: {{ requests }}
+      </div>
+      <div class="description">
+        {{ $t("common.status") }}: {{ hasPassedStatus }}
+      </div>
       <div class="metadata">
-        <span v-for="(student, index) in team.students" :key="student.uuid">
-          {{ student.firstname }} {{ student.lastname
-          }}<span v-if="index !== team.students.length - 1">, </span>
-        </span>
+        <template v-if="team.students.length">
+          <span v-for="(student, index) in team.students" :key="student.uuid">
+            {{ student.firstname }} {{ student.lastname
+            }}<span v-if="index !== team.students.length - 1">, </span>
+          </span>
+        </template>
+        <template v-else>
+          {{ $tc("team.student", 0) }}
+        </template>
       </div>
     </div>
   </RouterLink>
@@ -66,7 +75,9 @@ export default {
       );
     },
     hasPassedStatus() {
-      return this.team.hasPassed ? "Bestanden" : "Nicht Bestanden";
+      return this.team.hasPassed
+        ? this.$tc("team.passed", 1)
+        : this.$tc("team.passed", 0);
     },
   },
 };

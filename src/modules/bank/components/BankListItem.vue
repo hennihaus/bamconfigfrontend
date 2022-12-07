@@ -11,12 +11,18 @@
     />
     <div class="content">
       <div class="header">{{ bank.name }}</div>
-      <div class="description">Status: {{ activeStatus }}</div>
+      <div class="description">
+        {{ $t("common.status") }}: {{ activeStatus }}
+      </div>
       <div class="metadata">
         {{ asyncStatus }}
         <br />
-        <span v-if="bank.isAsync">{{ bank.teamsCount }} Teams</span>
-        <span v-else>Alle Teams</span>
+        <div v-if="bank.isAsync">
+          {{ $tc("common.counter", 1) }} {{ $tc("core.team", 2) }}
+        </div>
+        <div v-else>
+          {{ $tc("common.counter", 2) }} {{ $tc("core.team", 2) }}
+        </div>
       </div>
     </div>
   </RouterLink>
@@ -40,10 +46,14 @@ export default {
   },
   computed: {
     activeStatus() {
-      return this.bank.isActive ? "Aktiv" : "Deaktiviert";
+      return this.bank.isActive
+        ? this.$tc("bank.active-status", 1).toLowerCase()
+        : this.$tc("bank.active-status", 0).toLowerCase();
     },
     asyncStatus() {
-      return this.bank.isAsync ? "JMS" : "SOAP/REST";
+      return this.bank.isAsync
+        ? this.$tc("bank.async-status", 1)
+        : this.$tc("bank.async-status", 0);
     },
   },
 };

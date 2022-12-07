@@ -1,6 +1,6 @@
 <template>
-  <h1>TODO</h1>
-  <div>UUID: {{ uuid }}</div>
+  <h1>{{ $t("bank.edit") }}</h1>
+  <div>{{ uuid }}</div>
 </template>
 
 <script>

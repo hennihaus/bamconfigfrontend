@@ -1,8 +1,6 @@
 <template>
-  <h1>Home</h1>
-  <p>
-    Das ist das Frontend zum Konfigurieren des Kurses BAM Businessintegration.
-  </p>
+  <h1>{{ $t("core.home") }}</h1>
+  <p>{{ $t("core.home-description") }}</p>
 
   <a :href="activeMqUrl" target="_blank" class="ui olive button">
     ActiveMQ
@@ -13,7 +11,7 @@
     <i class="right info icon" />
   </a>
   <a class="ui red button" @click="resetBroker">
-    Kurs neu starten
+    {{ $t("core.home-restart-course") }}
     <i class="right refresh icon" />
   </a>
 
@@ -43,9 +41,7 @@ export default {
   },
   methods: {
     resetBroker() {
-      const hasConfirmed = confirm(
-        "Damit werden alle Queues und Topics auf den Uhrsprungszustand zurückgesetzt. Die Nutzungsstatistiken werden zurückgesetzt und Gruppenpasswörter neu generiert."
-      );
+      const hasConfirmed = confirm(this.$t("core.home-restart-course-warning"));
 
       if (hasConfirmed) {
         this.isLoading = true;
@@ -54,12 +50,11 @@ export default {
           .resetBroker()
           .then(() => {
             this.type = "positive";
-            this.message =
-              "Gesamtsystem wurde erfolgreich auf den Uhrsprungszustand zurückgesetzt.";
+            this.message = this.$t("core.home-restart-course-success");
           })
           .catch(() => {
             this.type = "negative";
-            this.message = "Fehler beim Zurücksetzen des Systems.";
+            this.message = this.$t("core.home-restart-course-error");
           })
           .finally(() => (this.isLoading = false));
       }

@@ -1,6 +1,6 @@
 <template>
   <template v-if="!isLoading">
-    <h1>Team hinzufügen</h1>
+    <h1>{{ $t("team.create") }}</h1>
     <BaseMessage v-if="message" :message="message" />
     <TeamForm :banks="banks" @submit-team="createTeam" />
   </template>
@@ -53,7 +53,7 @@ export default {
             },
           });
         })
-        .catch(() => (this.message = "Fehler beim Erstellen des Teams."))
+        .catch(() => (this.message = this.$t("team.create-error")))
         .finally(() => (this.isLoading = false));
     },
   },

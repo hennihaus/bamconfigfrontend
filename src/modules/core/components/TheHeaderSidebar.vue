@@ -2,16 +2,16 @@
   <div class="right menu">
     <div v-if="isTaskItemActive" class="item">
       <div class="tiny ui olive button" @click="$emit('printTasks')">
-        Komplette Aufgabenstellung
+        {{ $t("core.task-print") }}
       </div>
     </div>
     <div v-if="isTeamItemActive" class="item">
       <RouterLink :to="{ name: 'TeamCreate' }" class="tiny ui olive button">
-        <div>Neues Team</div>
+        <div>{{ $t("team.create") }}</div>
       </RouterLink>
     </div>
     <div class="item">
-      <div class="tiny ui orange button">Abmelden</div>
+      <div class="tiny ui orange button">{{ $t("core.logout") }}</div>
     </div>
   </div>
 </template>

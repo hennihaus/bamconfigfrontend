@@ -1,6 +1,6 @@
 <template>
-  <h1>TODO</h1>
-  <p>UUID: {{ uuid }}</p>
+  <h1>{{ $t("task.edit") }}</h1>
+  <p>{{ uuid }}</p>
 </template>
 
 <script>

@@ -6,7 +6,9 @@
         :title="bank.name"
       >
         <template #jmsQueue>
-          <div v-if="bank.isAsync">Request-JMS-Queue: {{ bank.jmsQueue }}</div>
+          <div v-if="bank.isAsync">
+            {{ $t("bank.jms-queue") }}: {{ bank.jmsQueue }}
+          </div>
         </template>
       </BankCreditConfigurationListItem>
     </div>

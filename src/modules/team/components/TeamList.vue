@@ -5,7 +5,7 @@
 
       <BaseMessage
         v-if="!isLoading && !teams.length"
-        message="Es wurden keine Teams gefunden."
+        :message="$tc('team.not-found', 2)"
       />
     </template>
     <template #filters>
@@ -44,7 +44,11 @@ export default {
   created() {
     this.$watch(
       () => this.$route.query,
-      () => this.fetchAll(),
+      (newQuery, oldQuery) => {
+        if (JSON.stringify(newQuery) !== JSON.stringify(oldQuery)) {
+          this.fetchAll();
+        }
+      },
       { immediate: true }
     );
   },

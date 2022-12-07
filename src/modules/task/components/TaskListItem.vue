@@ -22,7 +22,8 @@
         {{ task.title }}
       </div>
       <div class="description">
-        {{ task.integrationStep }}. Integrationsschritt
+        {{ task.integrationStep }}{{ integrationStep }}
+        {{ $t("task.integration-step") }}
       </div>
       <div class="metadata">
         <span v-for="(endpoint, index) in task.endpoints" :key="endpoint.uuid">
@@ -58,6 +59,21 @@ export default {
     },
     thumbnailUrl() {
       return this.task.banks[0].thumbnailUrl;
+    },
+    integrationStep() {
+      if (this.$i18n.locale === "de") {
+        return ".";
+      }
+      if (this.task.integrationStep === 1) {
+        return "st";
+      }
+      if (this.task.integrationStep === 2) {
+        return "nd";
+      }
+      if (this.task.integrationStep === 3) {
+        return "rd";
+      }
+      return "th";
     },
   },
 };

@@ -4,7 +4,7 @@
       <template #options>
         <RouterLink :to="{ name: 'TaskEdit', params: { uuid } }">
           <button class="ui tiny yellow labeled icon button">
-            <i class="write icon" /> Aufgabe bearbeiten
+            <i class="write icon" /> {{ $t("task.edit") }}
           </button>
         </RouterLink>
       </template>
@@ -54,7 +54,7 @@ export default {
           this.task = task;
           this.message = "";
         })
-        .catch(() => (this.message = "Aufgabe wurde nicht gefunden."))
+        .catch(() => (this.message = this.$tc("task.not-found", 1)))
         .finally(() => (this.isLoading = false));
     },
   },

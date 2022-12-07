@@ -1,35 +1,35 @@
 <template>
   <div class="ui menu">
+    <TheLanguage />
+
     <RouterLink
       :to="{ name: 'TheHome' }"
       exact-active-class="active"
       class="item"
     >
-      Home
+      {{ $t("core.home") }}
     </RouterLink>
     <RouterLink :to="{ name: 'TaskList' }" active-class="active" class="item">
-      Aufgaben
+      {{ $tc("core.task", 2) }}
     </RouterLink>
     <RouterLink :to="{ name: 'BankList' }" active-class="active" class="item">
-      Banken
+      {{ $tc("core.bank", 2) }}
     </RouterLink>
     <RouterLink :to="{ name: 'TeamList' }" active-class="active" class="item">
-      Teams
+      {{ $tc("core.team", 2) }}
     </RouterLink>
 
-    <TheHeaderSidebar
-      @print-teams="$emit('printTeams')"
-      @print-tasks="$emit('printTasks')"
-    />
+    <TheHeaderSidebar @print-tasks="$emit('printTasks')" />
   </div>
 </template>
 
 <script>
 import TheHeaderSidebar from "@/modules/core/components/TheHeaderSidebar.vue";
+import TheLanguage from "@/modules/core/components/TheLanguage.vue";
 
 export default {
   name: "TheHeader",
-  components: { TheHeaderSidebar },
-  emits: ["printTeams", "printTasks"],
+  components: { TheLanguage, TheHeaderSidebar },
+  emits: ["printTasks"],
 };
 </script>

@@ -9,10 +9,10 @@
 
     <div class="four wide column">
       <template v-if="bank.isAsync">
-        <h4>JMS-Queue</h4>
+        <h4>{{ $t("bank.jms-queue") }}</h4>
         <div>{{ bank.jmsQueue }}</div>
       </template>
-      <h4>Schnittstelle</h4>
+      <h4>{{ $t("bank.interface") }}</h4>
       <div>{{ asyncStatus }}</div>
     </div>
 
@@ -23,12 +23,11 @@
     </div>
 
     <div class="four wide column">
-      <h4>Teams</h4>
-      <template v-if="bank.isAsync">
-        <div v-if="bank.teamsCount">{{ bank.teamsCount }} Teams</div>
-        <div v-else>Keine Teams vorhanden</div>
-      </template>
-      <div v-else>Alle</div>
+      <h4>{{ $tc("core.team", 2) }}</h4>
+      <div v-if="bank.isAsync">
+        {{ $tc("common.counter", 1).toLowerCase() }}
+      </div>
+      <div v-else>{{ $tc("common.counter", 2).toLowerCase() }}</div>
     </div>
   </div>
   <div class="ui divider"></div>
@@ -52,10 +51,14 @@ export default {
   },
   computed: {
     activeStatus() {
-      return this.bank.isActive ? "Aktiv" : "Deaktiviert";
+      return this.bank.isActive
+        ? this.$tc("bank.active-status", 1)
+        : this.$tc("bank.active-status", 0);
     },
     asyncStatus() {
-      return this.bank.isAsync ? "JMS" : "SOAP/REST";
+      return this.bank.isAsync
+        ? this.$tc("bank.async-status", 1)
+        : this.$tc("bank.async-status", 0);
     },
   },
 };
