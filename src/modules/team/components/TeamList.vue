@@ -1,5 +1,5 @@
 <template>
-  <BasePagination :pagination="pagination" component="TeamList">
+  <BaseCursorPagination :pagination="pagination" component="TeamList">
     <template #items>
       <TeamListItem v-for="team in teams" :key="team.uuid" :team="team" />
 
@@ -13,7 +13,7 @@
         <TeamListFilter :banks="banks" />
       </div>
     </template>
-  </BasePagination>
+  </BaseCursorPagination>
   <BaseLoading v-if="isLoading" />
 </template>
 
@@ -21,17 +21,22 @@
 import BaseLoading from "@/modules/base/components/BaseLoading.vue";
 import TeamListItem from "@/modules/team/components/TeamListItem.vue";
 import BaseMessage from "@/modules/base/components/BaseMessage.vue";
-import BasePagination from "@/modules/base/components/BasePagination.vue";
+import BaseCursorPagination from "@/modules/base/components/BaseCursorPagination.vue";
 import TeamListFilter from "@/modules/team/components/TeamListFilter.vue";
 
 export default {
   name: "TeamList",
   components: {
     TeamListFilter,
-    BasePagination,
+    BaseCursorPagination,
     BaseMessage,
     TeamListItem,
     BaseLoading,
+  },
+  setup() {
+    return {
+      itemsPerPage: 8,
+    };
   },
   data() {
     return {
@@ -68,7 +73,7 @@ export default {
     fetchTeams() {
       let params = this.$route.query.cursor
         ? { cursor: this.$route.query.cursor }
-        : { ...this.$route.query, limit: 8 };
+        : { ...this.$route.query, limit: this.itemsPerPage };
 
       if (Object.hasOwn(params, "hasPassed")) {
         params = {
