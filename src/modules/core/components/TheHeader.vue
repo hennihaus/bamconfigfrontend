@@ -9,13 +9,25 @@
     >
       {{ $t("core.home") }}
     </RouterLink>
-    <RouterLink :to="{ name: 'TaskList' }" active-class="active" class="item">
+    <RouterLink
+      :to="{ name: 'TaskWrapper' }"
+      active-class="active"
+      class="item"
+    >
       {{ $tc("core.task", 2) }}
     </RouterLink>
-    <RouterLink :to="{ name: 'BankList' }" active-class="active" class="item">
+    <RouterLink
+      :to="{ name: 'BankWrapper' }"
+      active-class="active"
+      class="item"
+    >
       {{ $tc("core.bank", 2) }}
     </RouterLink>
-    <RouterLink :to="{ name: 'TeamList' }" active-class="active" class="item">
+    <RouterLink
+      :to="{ name: 'TeamWrapper' }"
+      active-class="active"
+      class="item"
+    >
       {{ $tc("core.team", 2) }}
     </RouterLink>
 

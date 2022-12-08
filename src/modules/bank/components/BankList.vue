@@ -1,20 +1,43 @@
 <template>
-  <div v-if="!isLoading" class="ui middle aligned selection divided list">
-    <BankListItem v-for="bank in banks" :key="bank.uuid" :bank="bank" />
+  <template v-if="!isLoading">
+    <BaseFrontendPagination
+      :items="banks"
+      :page-number="pageNumber"
+      component="BankList"
+    >
+      <template #item="{ item }">
+        <BankListItem :key="item.uuid" :bank="item" />
+      </template>
 
-    <BaseMessage v-if="!banks.length" :message="$tc('bank.not-found', 2)" />
-  </div>
+      <template #message>
+        <BaseMessage v-if="!banks.length" :message="$tc('bank.not-found', 2)" />
+      </template>
+    </BaseFrontendPagination>
+  </template>
   <BaseLoading v-else />
 </template>
 
 <script>
+import BaseFrontendPagination from "@/modules/base/components/BaseFrontendPagination.vue";
 import BankListItem from "@/modules/bank/components/BankListItem.vue";
 import BaseMessage from "@/modules/base/components/BaseMessage.vue";
 import BaseLoading from "@/modules/base/components/BaseLoading.vue";
 
 export default {
   name: "BankList",
-  components: { BaseLoading, BaseMessage, BankListItem },
+  components: {
+    BaseFrontendPagination,
+    BaseLoading,
+    BaseMessage,
+    BankListItem,
+  },
+  props: {
+    pageNumber: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
   data() {
     return {
       isLoading: true,

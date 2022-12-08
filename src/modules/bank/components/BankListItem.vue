@@ -1,13 +1,12 @@
 <template>
   <RouterLink
     :to="{ name: 'BankDetails', params: { uuid: bank.uuid } }"
-    class="item"
+    class="item custom-item"
   >
     <img
-      v-base-image-zoom
       v-base-image-error
       :src="bank.thumbnailUrl"
-      class="ui tiny image"
+      class="ui tiny image custom-image"
     />
     <div class="content">
       <div class="header">{{ bank.name }}</div>
@@ -29,13 +28,11 @@
 </template>
 
 <script>
-import baseImageZoom from "@/modules/base/directives/base-image-zoom";
 import baseImageError from "@/modules/base/directives/base-image-error";
 
 export default {
   name: "BankListItem",
   directives: {
-    baseImageZoom,
     baseImageError,
   },
   props: {
@@ -58,3 +55,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.custom-item {
+  display: flex !important;
+  height: 95px;
+  align-items: center;
+}
+
+.custom-image {
+  max-height: 80px;
+  max-width: 80px;
+}
+</style>

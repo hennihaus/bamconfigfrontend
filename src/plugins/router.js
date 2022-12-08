@@ -55,17 +55,25 @@ const router = createRouter({
           children: [
             {
               path: "",
-              name: "TaskList",
-              component: TaskList,
+              name: "TaskWrapper",
+              redirect: {
+                name: "TaskList",
+              },
             },
             {
-              path: ":uuid",
+              path: "list/:pageNumber(-?\\d*\\.{0,1}\\d+)?",
+              name: "TaskList",
+              component: TaskList,
+              props: true,
+            },
+            {
+              path: "details/:uuid",
               name: "TaskDetails",
               component: TaskDetails,
               props: true,
             },
             {
-              path: ":uuid/edit",
+              path: "edit/:uuid",
               name: "TaskEdit",
               component: TaskEdit,
               props: true,
@@ -80,17 +88,25 @@ const router = createRouter({
           children: [
             {
               path: "",
-              name: "BankList",
-              component: BankList,
+              name: "BankWrapper",
+              redirect: {
+                name: "BankList",
+              },
             },
             {
-              path: ":uuid",
+              path: "list/:pageNumber(-?\\d*\\.{0,1}\\d+)?",
+              name: "BankList",
+              component: BankList,
+              props: true,
+            },
+            {
+              path: "details/:uuid",
               name: "BankDetails",
               component: BankDetails,
               props: true,
             },
             {
-              path: ":uuid/edit",
+              path: "edit/:uuid",
               name: "BankEdit",
               component: BankEdit,
               props: true,
@@ -105,17 +121,24 @@ const router = createRouter({
           children: [
             {
               path: "",
+              name: "TeamWrapper",
+              redirect: {
+                name: "TeamList",
+              },
+            },
+            {
+              path: "list",
               name: "TeamList",
               component: TeamList,
             },
             {
-              path: ":thumbnailUrl/:uuid",
+              path: "details/:thumbnailUrl/:uuid",
               name: "TeamDetails",
               component: TeamDetails,
               props: true,
             },
             {
-              path: ":thumbnailUrl/:uuid/edit",
+              path: "edit/:thumbnailUrl/:uuid",
               name: "TeamEdit",
               component: TeamEdit,
               props: true,

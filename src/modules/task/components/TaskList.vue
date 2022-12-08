@@ -1,30 +1,53 @@
 <template>
-  <div v-if="!isLoading" class="ui middle aligned selection divided list">
-    <TaskListItem v-for="task in tasks" :key="task.uuid" :task="task" />
-
-    <BaseMessage
-      v-if="hasNoAsyncBanksActivated"
-      type="warning"
-      :message="$t('task.no-async-banks')"
+  <template v-if="!isLoading">
+    <BaseFrontendPagination
+      :items="tasks"
+      :page-number="pageNumber"
+      component="TaskList"
     >
-      <template #description>
-        <p>{{ $t("task.no-async-banks-description") }}</p>
+      <template #item="{ item }">
+        <TaskListItem :key="item.uuid" :task="item" />
       </template>
-    </BaseMessage>
 
-    <BaseMessage v-if="!tasks.length" :message="$tc('task.not-found', 2)" />
-  </div>
+      <template #message>
+        <BaseMessage
+          v-if="hasNoAsyncBanksActivated"
+          type="warning"
+          :message="$t('task.no-async-banks')"
+        >
+          <template #description>
+            <p>{{ $t("task.no-async-banks-description") }}</p>
+          </template>
+        </BaseMessage>
+
+        <BaseMessage v-if="!tasks.length" :message="$tc('task.not-found', 2)" />
+      </template>
+    </BaseFrontendPagination>
+  </template>
   <BaseLoading v-else />
 </template>
 
 <script>
+import BaseFrontendPagination from "@/modules/base/components/BaseFrontendPagination.vue";
 import TaskListItem from "@/modules/task/components/TaskListItem.vue";
 import BaseMessage from "@/modules/base/components/BaseMessage.vue";
 import BaseLoading from "@/modules/base/components/BaseLoading.vue";
 
 export default {
   name: "TaskList",
-  components: { BaseLoading, BaseMessage, TaskListItem },
+  components: {
+    BaseFrontendPagination,
+    BaseLoading,
+    BaseMessage,
+    TaskListItem,
+  },
+  props: {
+    pageNumber: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
   data() {
     return {
       isLoading: true,

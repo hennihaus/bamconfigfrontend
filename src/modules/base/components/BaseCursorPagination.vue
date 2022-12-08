@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  name: "BasePagination",
+  name: "BaseCursorPagination",
   props: {
     pagination: {
       type: Object,
