@@ -7,16 +7,24 @@
     "credit-configuration": "Krediteinstellungen",
     "credit-configuration-min-amount-in-euros": "Kreditminimum",
     "credit-configuration-max-amount-in-euros": "Kreditmaximum",
-    "credit-configuration-month": "Monat | Monate",
     "credit-configuration-min-term-in-months": "Mindestlaufzeit",
     "credit-configuration-max-term-in-months": "Maximallaufzeit",
     "credit-configuration-min-schufa-rating": "Min. Schufa-Rating",
     "credit-configuration-max-schufa-rating": "Max. Schufa-Rating",
     "deactivate": "Bank deaktivieren",
     "activate": "Bank aktivieren",
-    "edit": "Bank bearbeiten",
+    "edit": "{bank} bearbeiten",
     "edit-error": "Fehler beim Ändern der Bank",
-    "not-found": "Bank nicht gefunden | Keine Banken gefunden"
+    "not-found": "Bank nicht gefunden | Keine Banken gefunden",
+    "credit-configuration-month": "Monat | Monate",
+    "add-teams": "Alle Teams hinzufügen",
+    "remove-teams": "Alle Teams entfernen",
+    "add-teams-success": "Alle Teams erfolgreich hinzugefügt",
+    "add-teams-error": "Fehler beim Hinzufügen der Teams",
+    "remove-teams-warning": "Alle Teams wirklich entfernen? Bestehende Statistiken werden gelöscht.",
+    "remove-teams-success": "Alle Teams erfolgreich entfernt",
+    "remove-teams-error": "Fehler beim Entfernen der Teams",
+    "thumbnail-url": "Bild-URL"
   },
   "base": {
     "loading": "Daten werden geladen...",
@@ -36,7 +44,10 @@
     "task-print": "Komplette Aufgabenstellung",
     "bank": "Bank | Banken",
     "team": "Team | Teams",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "team-recreate": "Teams verteilen",
+    "team-recreate-warning": "Bei der Neuverteilung der Teams auf unterschiedliche Banken werden alle existierende Statistiken zurückgesetzt. Alle Gruppen haben nicht bestanden.",
+    "team-recreate-error": "Fehler beim Neuverteilen der Teams"
   },
   "task": {
     "integration-step": "Integrationsschritt",
@@ -83,7 +94,6 @@
     "delete-error": "Team konnte nicht gelöscht werden",
     "edit": "Team bearbeiten",
     "edit-error": "Fehler beim Ändern des Teams",
-    "save": "Team speichern",
     "reset-jms-queue": "JMS-Queue zurücksetzen",
     "reset-jms-queue-warning": "JMS-Queue wirklich leeren?",
     "reset-jms-queue-success": "JMS-Queue {jmsQueue} erfolgreich zurückgesetzt",
@@ -101,6 +111,16 @@
     "available": "nicht vorhanden | vorhanden | alle vorhanden",
     "search": "Suchen",
     "generate": "Generieren",
-    "to": "Nicht zu | Zu | undefined"
+    "to": "Nicht zu | Zu | undefined",
+    "money": "Euro",
+    "save": "Speichern"
+  },
+  "messages": {
+    "unique_username": "{field} existiert bereits",
+    "unique_password": "{field} existiert bereits",
+    "unique_jms_queue": "{field} existiert bereits",
+    "amount_in_euros": "Kreditminimum darf nicht größer als Kreditmaximum",
+    "term_in_months": "Mindestlaufzeit darf nicht größer als Maximallaufzeit",
+    "schufa_rating": "Min. Schufa Rating darf nicht größer als max. Schufa Rating"
   }
 }

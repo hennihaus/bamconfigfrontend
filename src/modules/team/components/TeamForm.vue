@@ -31,7 +31,7 @@
           :class="[meta.valid ? 'green' : 'red']"
           class="ui fluid button"
         >
-          {{ $t("team.save") }}
+          {{ $t("common.save") }}
         </button>
       </div>
     </div>
@@ -69,7 +69,7 @@
             <button
               type="button"
               class="ui button"
-              @click="setFieldValue('password', generatePassword())"
+              @click="generatePassword(setFieldValue, validateField)"
             >
               {{ $t("common.generate") }}
             </button>
@@ -211,7 +211,9 @@ export default {
           students: props.team.students.length
             ? props.team.students
             : [{ uuid: uuid(), firstname: "", lastname: "" }],
-          statistics: Object.keys(props.team.statistics),
+          statistics: Object.keys(props.team.statistics)
+            .filter((bank) => bank !== "Schufa")
+            .filter((bank) => bank !== "Deutsche Bank"),
         },
         passwordLength,
         passwordSequence,
@@ -249,16 +251,16 @@ export default {
           .map((bank) => bank.name)
           .filter((bank) => !Object.keys(this.team.statistics).includes(bank));
       }
-      return this.banks.map((bank) => bank.name);
+      return this.banks.filter((bank) => bank.isAsync).map((bank) => bank.name);
     },
     validationSchema() {
       const studentFirstnames = Array.from(Array(this.students))
         .map((_, index) => `students[${index}].firstname`)
         .map((key, index) => ({
           [key]: {
-            requiredName: [`@students[${index}].lastname`],
-            minOptional: 2,
-            maxOptional: 50,
+            required_name: [`@students[${index}].lastname`],
+            min_optional: 2,
+            max_optional: 50,
           },
         }))
         .reduce((target, source) => Object.assign(target, source), {});
@@ -267,9 +269,9 @@ export default {
         .map((_, index) => `students[${index}].lastname`)
         .map((key, index) => ({
           [key]: {
-            requiredName: [`@students[${index}].firstname`],
-            minOptional: 2,
-            maxOptional: 50,
+            required_name: [`@students[${index}].firstname`],
+            min_optional: 2,
+            max_optional: 50,
           },
         }))
         .reduce((target, source) => Object.assign(target, source), {});
@@ -279,19 +281,19 @@ export default {
           required: true,
           min: 6,
           max: 50,
-          uniqueUsername: [this.initialValues.uuid, this.$teamApi],
+          unique_username: [this.initialValues.uuid, this.$teamApi],
         },
         password: {
           required: true,
           min: 10,
           max: 50,
-          uniquePassword: [this.initialValues.uuid, this.$teamApi],
+          unique_password: [this.initialValues.uuid, this.$teamApi],
         },
         jmsQueue: {
           required: true,
           min: 6,
           max: 50,
-          uniqueJmsQueue: [this.initialValues.uuid, this.$teamApi],
+          unique_jms_queue: [this.initialValues.uuid, this.$teamApi],
         },
         ...studentFirstnames,
         ...studentLastnames,
@@ -299,14 +301,15 @@ export default {
     },
   },
   methods: {
-    generatePassword() {
+    generatePassword(setFieldValue, validateField) {
       let text = "";
       for (let i = 0; i < this.passwordLength; i++) {
         text = `${text}${this.passwordSequence.charAt(
           Math.floor(Math.random() * this.passwordSequence.length)
         )}`;
       }
-      return text;
+      setFieldValue("password", text);
+      validateField("password");
     },
     createStudent() {
       this.students++;
@@ -329,7 +332,7 @@ export default {
       const students = value.students.filter(
         (student) => student.firstname && student.lastname
       );
-      const statistics = value.statistics
+      const statistics = ["Schufa", "Deutsche Bank", ...value.statistics]
         .map((bank) => {
           if (this.team && this.team.statistics[bank]) {
             return { [bank]: this.team.statistics[bank] };
