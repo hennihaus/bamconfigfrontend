@@ -10,6 +10,7 @@
       >
         <i class="power off icon" /> {{ $t("bank.deactivate") }}
       </button>
+
       <button
         v-if="isAsyncBankNotActive"
         class="ui tiny green labeled icon button"
@@ -17,17 +18,32 @@
       >
         <i class="power off icon" /> {{ $t("bank.activate") }}
       </button>
-      <RouterLink
-        v-if="bank.creditConfiguration"
-        :to="{ name: 'BankEdit', params: { uuid } }"
-      >
+
+      <RouterLink :to="{ name: 'BankEdit', params: { uuid } }">
         <button class="ui tiny yellow labeled icon button">
-          <i class="write icon" /> {{ $t("bank.edit") }}
+          <i class="write icon" />
+          {{ $t("bank.edit", { bank: $tc("core.bank", 1) }) }}
         </button>
       </RouterLink>
+
+      <button
+        v-if="bank.isAsync"
+        class="ui tiny olive labeled icon button"
+        @click="saveStatistics"
+      >
+        <i class="arrow up icon" /> {{ $t("bank.add-teams") }}
+      </button>
+
+      <button
+        v-if="bank.isAsync"
+        class="ui tiny orange labeled icon button"
+        @click="deleteStatistics"
+      >
+        <i class="remove icon" /> {{ $t("bank.remove-teams") }}
+      </button>
     </template>
 
-    <BaseMessage v-if="message" :message="message" />
+    <BaseMessage v-if="message" :message="message" :type="type" />
   </template>
   <BaseLoading v-else />
 </template>
@@ -50,6 +66,7 @@ export default {
     return {
       isLoading: true,
       bank: null,
+      type: null,
       message: "",
     };
   },
@@ -78,8 +95,12 @@ export default {
         .then((bank) => {
           this.bank = bank;
           this.message = "";
+          this.type = "";
         })
-        .catch(() => (this.message = this.$tc("bank.not-found", 1)))
+        .catch(() => {
+          this.type = "negative";
+          this.message = this.$tc("bank.not-found", 1);
+        })
         .finally(() => (this.isLoading = false));
     },
     updateBank(isActive) {
@@ -90,9 +111,45 @@ export default {
         .then((bank) => {
           this.bank = bank;
           this.message = "";
+          this.type = "";
         })
-        .catch(() => (this.message = this.$t("bank.edit-error")))
+        .catch(() => {
+          this.message = this.$t("bank.edit-error");
+          this.type = "negative";
+        })
         .finally(() => (this.isLoading = false));
+    },
+    saveStatistics() {
+      this.isLoading = true;
+
+      this.$statisticApi
+        .saveAll(this.bank.uuid)
+        .then(() => {
+          this.type = "positive";
+          this.message = this.$t("bank.add-teams-success");
+        })
+        .catch(() => {
+          this.type = "negative";
+          this.message = this.$t("bank.add-teams-error");
+        })
+        .finally(() => (this.isLoading = false));
+    },
+    deleteStatistics() {
+      if (confirm(this.$t("bank.remove-teams-warning"))) {
+        this.isLoading = true;
+
+        this.$statisticApi
+          .deleteAll(this.bank.uuid)
+          .then(() => {
+            this.type = "positive";
+            this.message = this.$t("bank.remove-teams-success");
+          })
+          .catch(() => {
+            this.type = "negative";
+            this.message = this.$t("bank.remove-teams-error");
+          })
+          .finally(() => (this.isLoading = false));
+      }
     },
   },
 };

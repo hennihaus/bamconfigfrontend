@@ -34,6 +34,9 @@
 
   <h4>{{ $tc("core.bank", 2) }}</h4>
   <div>TODO</div>
+  <span v-for="(requests, bank) in team.statistics" :key="bank">
+    {{ bank }}: {{ requests }}&nbsp;
+  </span>
   <div class="ui divider" />
 </template>
 
