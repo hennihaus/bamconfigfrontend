@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { useTaskFetch } from "@/modules/task/composables/fetch";
+import { toRef } from "vue";
+import TaskDetailsView from "@/modules/task/components/TaskDetailsView.vue";
+import BaseMessage from "@/modules/base/components/BaseMessage.vue";
+import BaseLoading from "@/modules/base/components/BaseLoading.vue";
+
+const props = defineProps<{ uuid: string }>();
+
+const { task, isLoading, error } = useTaskFetch(toRef(props, "uuid"));
+</script>
+
 <template>
   <template v-if="!isLoading">
     <TaskDetailsView v-if="task" :task="task">
@@ -10,53 +22,7 @@
       </template>
     </TaskDetailsView>
 
-    <BaseMessage v-if="message" :message="message" />
+    <BaseMessage v-if="error" :message="error" />
   </template>
   <BaseLoading v-else />
 </template>
-
-<script>
-import BaseLoading from "@/modules/base/components/BaseLoading.vue";
-import BaseMessage from "@/modules/base/components/BaseMessage.vue";
-import TaskDetailsView from "@/modules/task/components/TaskDetailsView.vue";
-
-export default {
-  name: "TaskDetails",
-  components: { TaskDetailsView, BaseMessage, BaseLoading },
-  props: {
-    uuid: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      isLoading: true,
-      task: null,
-      message: "",
-    };
-  },
-  watch: {
-    uuid: {
-      handler() {
-        this.fetchTask();
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    fetchTask() {
-      this.isLoading = true;
-
-      this.$taskApi
-        .getOne(this.uuid)
-        .then((task) => {
-          this.task = task;
-          this.message = "";
-        })
-        .catch(() => (this.message = this.$tc("task.not-found", 1)))
-        .finally(() => (this.isLoading = false));
-    },
-  },
-};
-</script>

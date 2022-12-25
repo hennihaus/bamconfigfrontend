@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import TheHeader from "@/modules/core/components/TheHeader.vue";
+import TaskPrint from "@/modules/task/components/TaskPrint.vue";
+
+const isPrintingTasks = ref(false);
+const onPrintTasks = () => (isPrintingTasks.value = true);
+const onPrintClose = () => (isPrintingTasks.value = false);
+</script>
+
 <template>
   <div class="container">
     <div class="header">
@@ -9,29 +19,6 @@
   </div>
   <TaskPrint v-if="isPrintingTasks" @close="onPrintClose" />
 </template>
-
-<script>
-import TheHeader from "@/modules/core/components/TheHeader.vue";
-import TaskPrint from "@/modules/task/components/TaskPrint.vue";
-
-export default {
-  name: "TheCore",
-  components: { TaskPrint, TheHeader },
-  data() {
-    return {
-      isPrintingTasks: false,
-    };
-  },
-  methods: {
-    onPrintTasks() {
-      this.isPrintingTasks = true;
-    },
-    onPrintClose() {
-      this.isPrintingTasks = false;
-    },
-  },
-};
-</script>
 
 <style scoped>
 .container {

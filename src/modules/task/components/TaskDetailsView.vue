@@ -1,16 +1,34 @@
+<script setup lang="ts">
+import type { Task } from "@hennihaus/bamconfigbackend";
+import { useTask } from "@/modules/task/composables/task";
+import { toRef } from "vue";
+import TaskEndpointList from "@/modules/task/components/TaskEndpointList.vue";
+import { useContact } from "@/modules/task/composables/contact";
+import TaskTableList from "@/modules/task/components/TaskTableList.vue";
+
+const props = defineProps<{ task: Task }>();
+
+const {
+  integrationStep,
+  thumbnailUrl,
+  description,
+  isAsyncTask,
+  hasNoAsyncBanksActivated,
+} = useTask(toRef(props, "task"));
+
+const { name, emailLink } = useContact(toRef(props, "task"));
+</script>
+
 <template>
   <h1>{{ task.title }}</h1>
-  <h3>
-    {{ task.integrationStep }}{{ integrationStep }}
-    {{ $t("task.integration-step") }}
-  </h3>
+  <h3>{{ integrationStep }} {{ $t("task.integration-step") }}</h3>
 
   <div class="ui divider" />
 
   <div id="task-details" class="ui grid"></div>
 
   <h4>{{ $t("task.description") }}</h4>
-  <p v-dompurify-html="taskDescription" />
+  <p v-dompurify-html="description" />
 
   <slot name="details">
     <Teleport to="#task-details">
@@ -34,7 +52,7 @@
       </div>
 
       <div class="four wide column">
-        <h4>{{ $tc("core.bank", 2) }}</h4>
+        <h4>{{ $t("core.bank", 2) }}</h4>
         <template v-for="bank in task.banks" :key="bank.uuid">
           <div v-if="bank.isActive">
             {{ bank.name }}
@@ -47,12 +65,12 @@
 
       <div class="four wide column">
         <h4>{{ $t("task.contact") }}</h4>
-        <div>{{ $t("common.name") }}: {{ contactName }}</div>
+        <div>{{ $t("common.name") }}: {{ name }}</div>
         <div>
           {{ $t("task.email") }}:
-          <a :href="contactEmailLink">{{ task.contact.email }}</a>
+          <a :href="emailLink">{{ task.contact.email }}</a>
         </div>
-        <h4 v-if="$slots.options">{{ $tc("task.option", 2) }}</h4>
+        <h4 v-if="$slots.options">{{ $t("task.option", 2) }}</h4>
         <slot name="options" />
       </div>
     </Teleport>
@@ -60,67 +78,3 @@
 
   <TaskTableList :parameters="task.parameters" :responses="task.responses" />
 </template>
-
-<script>
-import baseImageError from "@/modules/base/directives/base-image-error";
-import TaskEndpointList from "@/modules/task/components/TaskEndpointList.vue";
-import TaskTableList from "@/modules/task/components/TaskTableList.vue";
-
-export default {
-  name: "TaskDetailsView",
-  components: { TaskTableList, TaskEndpointList },
-  directives: {
-    baseImageError,
-  },
-  props: {
-    task: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    isAsyncTask() {
-      return (
-        this.task.banks && this.task.banks.length && this.task.banks[0].isAsync
-      );
-    },
-    thumbnailUrl() {
-      return this.task.banks[0].thumbnailUrl;
-    },
-    hasNoAsyncBanksActivated() {
-      if (!this.task.banks.some((bank) => bank.isAsync)) {
-        return false;
-      }
-      return !this.task.banks
-        .filter((bank) => bank.isAsync)
-        .some((bank) => bank.isActive);
-    },
-    contactName() {
-      return `${this.task.contact.firstname} ${this.task.contact.lastname}`;
-    },
-    contactEmailLink() {
-      return `mailto:${this.task.contact.email}`;
-    },
-    taskDescription() {
-      return this.task.description && this.task.description.length
-        ? this.task.description
-        : `${this.$t("task.description")} ${this.$tc("common.available", 0)}`;
-    },
-    integrationStep() {
-      if (this.$i18n.locale === "de") {
-        return ".";
-      }
-      if (this.task.integrationStep === 1) {
-        return "st";
-      }
-      if (this.task.integrationStep === 2) {
-        return "nd";
-      }
-      if (this.task.integrationStep === 3) {
-        return "rd";
-      }
-      return "th";
-    },
-  },
-};
-</script>

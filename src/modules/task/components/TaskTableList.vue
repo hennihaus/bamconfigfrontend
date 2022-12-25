@@ -1,5 +1,47 @@
+<script setup lang="ts">
+import type { Parameter, Response } from "@hennihaus/bamconfigbackend";
+import { computed } from "vue";
+import { useBaseI18n } from "@/modules/base/composables/i18n";
+
+const { t } = useBaseI18n();
+
+const props = defineProps<{
+  parameters: Parameter[];
+  responses: Response[];
+}>();
+
+const mappedParameters = computed(() => {
+  return props.parameters.map((parameter) => {
+    return {
+      ...parameter,
+      type: parameter.type.toLowerCase(),
+      description: parameter.description.length
+        ? parameter.description
+        : `${t("task.parameter-description")} ${t("common.available", 0)}`,
+    };
+  });
+});
+
+const mappedResponses = computed(() => {
+  let responses = props.responses;
+
+  return responses
+    .sort((first, second) => first.httpStatusCode - second.httpStatusCode)
+    .map((response) => {
+      return {
+        ...response,
+        httpStatusCode:
+          response.httpStatusCode > 0
+            ? response.httpStatusCode
+            : `${t("common.status")} ${t("common.available", 0)}`,
+      };
+    });
+});
+</script>
+
 <template>
   <h4>{{ $t("task.parameter") }}</h4>
+
   <table class="ui celled table">
     <thead>
       <tr>
@@ -15,6 +57,7 @@
         <th>{{ $t("task.response-example") }}</th>
       </tr>
     </thead>
+
     <tbody>
       <tr v-for="parameter in mappedParameters" :key="parameter.uuid">
         <td>{{ parameter.name }}</td>
@@ -35,7 +78,7 @@
     </tbody>
   </table>
 
-  <h4>{{ $tc("task.response", 2) }}</h4>
+  <h4>{{ $t("task.response", 2) }}</h4>
   <table class="ui celled table">
     <thead>
       <tr class="invisible">
@@ -51,6 +94,7 @@
         <th>{{ $t("task.response-example") }}</th>
       </tr>
     </thead>
+
     <tbody>
       <tr
         v-for="parameter in mappedParameters"
@@ -71,56 +115,6 @@
     </tbody>
   </table>
 </template>
-
-<script>
-export default {
-  name: "TaskTableList",
-  props: {
-    parameters: {
-      type: Array,
-      required: true,
-    },
-    responses: {
-      type: Array,
-      required: true,
-    },
-  },
-  computed: {
-    mappedParameters() {
-      return this.parameters.map((parameter) => {
-        return {
-          ...parameter,
-          type: parameter.type.toLowerCase(),
-          description: parameter.description.length
-            ? parameter.description
-            : `${this.$t("task.parameter-description")} ${this.$tc(
-                "common.available",
-                0
-              )}`,
-        };
-      });
-    },
-    mappedResponses() {
-      let responses = this.responses;
-
-      return responses
-        .sort((first, second) => first.httpStatusCode - second.httpStatusCode)
-        .map((response) => {
-          return {
-            ...response,
-            httpStatusCode:
-              response.httpStatusCode > 0
-                ? response.httpStatusCode
-                : `${this.$t("common.status")} ${this.$tc(
-                    "common.available",
-                    0
-                  )}`,
-          };
-        });
-    },
-  },
-};
-</script>
 
 <style scoped>
 .invisible {

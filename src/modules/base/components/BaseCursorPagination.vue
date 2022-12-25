@@ -1,11 +1,33 @@
+<script setup lang="ts">
+import type { Pagination } from "@hennihaus/bamconfigbackend";
+import { computed } from "vue";
+
+const props = defineProps<{ pagination: Pagination; component: string }>();
+
+const hasPages = computed(() => {
+  if (!props.pagination) {
+    return false;
+  }
+  return props.pagination.prev || props.pagination.next;
+});
+const isFirstPage = computed(
+  () => !props.pagination.prev && props.pagination.next
+);
+const isLastPage = computed(
+  () => props.pagination.prev && !props.pagination.next
+);
+</script>
+
 <template>
   <div class="container" :class="{ 'two-column-container': $slots.filters }">
     <div class="ui middle aligned selection divided list">
       <slot name="items" />
     </div>
+
     <div v-if="$slots.filters" class="filter-wrapper">
       <slot name="filters" />
     </div>
+
     <div v-if="hasPages" class="ui pagination menu">
       <RouterLink
         :to="{
@@ -50,36 +72,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: "BaseCursorPagination",
-  props: {
-    pagination: {
-      type: Object,
-      required: true,
-    },
-    component: {
-      type: String,
-      required: true,
-    },
-  },
-  computed: {
-    hasPages() {
-      if (!this.pagination) {
-        return false;
-      }
-      return this.pagination.prev || this.pagination.next;
-    },
-    isFirstPage() {
-      return !this.pagination.prev && this.pagination.next;
-    },
-    isLastPage() {
-      return this.pagination.prev && !this.pagination.next;
-    },
-  },
-};
-</script>
 
 <style scoped>
 .container {

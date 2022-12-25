@@ -70,18 +70,21 @@
     "response-example": "Beispiel",
     "documentation": "Doku",
     "edit": "Aufgabe bearbeiten",
-    "not-found": "Aufgabe nicht gefunden | Keine Aufgaben gefunden"
+    "not-found": "Aufgabe nicht gefunden | Keine Aufgaben gefunden",
+    "edit-error": "Fehler beim Ändern der Aufgabe",
+    "parameter-edit": "Parameter bearbeiten",
+    "response-edit": "Antworten bearbeiten",
+    "step": "Schritt",
+    "title": "Titel",
+    "description-show": "Aufgabenstellung anzeigen"
   },
   "team": {
     "username": "Benutzername",
     "password": "Passwort",
     "jms-queue": "JMS-Queue",
     "student": "Keine Studenten | Student | Studenten",
-    "student-firstname": "Vorname",
-    "student-lastname": "Nachname",
     "banks-migration": "{0} migrierende Banken (Drag & Drop)",
     "passed": "Nicht Bestanden | Bestanden | undefined",
-    "passed-checkbox": "Nein | Ja | Beide",
     "type": "Typ",
     "type-checkbox": "Beispiel | Regulär | Beide",
     "request": "Bankanfrage | Bankanfragen",
@@ -101,9 +104,13 @@
     "reset-requests": "Bankanfragen zurücksetzen",
     "reset-requests-warning": "Statistiken wirklich zurücksetzen? Der Status wird damit auf nicht bestanden zurückgesetzt.",
     "reset-requests-error": "Statistiken konnten nicht zurückgesetzt werden",
-    "not-found": "Team nicht gefunden | Keine Teams gefunden"
+    "not-found": "Team nicht gefunden | Keine Teams gefunden",
+    "edit-example": "Beispielteam bearbeiten"
   },
   "common": {
+    "firstname": "Vorname",
+    "lastname": "Nachname",
+    "answer": "Nein | Ja | Beide",
     "status": "Status",
     "counter": "Keine | Verschiedene | Alle",
     "name": "Name",
@@ -113,7 +120,9 @@
     "generate": "Generieren",
     "to": "Nicht zu | Zu | undefined",
     "money": "Euro",
-    "save": "Speichern"
+    "save": "Speichern",
+    "save-lost-warning": "Deine Änderungen werden nicht gespeichert. Trotzdem weiter?",
+    "unknown": "Unbekannt"
   },
   "messages": {
     "unique_username": "{field} existiert bereits",
@@ -121,6 +130,9 @@
     "unique_jms_queue": "{field} existiert bereits",
     "amount_in_euros": "Kreditminimum darf nicht größer als Kreditmaximum",
     "term_in_months": "Mindestlaufzeit darf nicht größer als Maximallaufzeit",
-    "schufa_rating": "Min. Schufa Rating darf nicht größer als max. Schufa Rating"
+    "schufa_rating": "Min. Schufa Rating darf nicht größer als max. Schufa Rating",
+    "unique_title": "{field} existiert bereits",
+    "json": "{field} muss ein gültiges JSON sein",
+    "not_empty_json": "{field} darf nicht leeres JSON sein"
   }
 }

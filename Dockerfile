@@ -1,4 +1,5 @@
 FROM node:16 as build
+ARG GITHUB_TOKEN
 WORKDIR /bamconfigfrontend
 COPY . .
 RUN chown -R node:node /bamconfigfrontend

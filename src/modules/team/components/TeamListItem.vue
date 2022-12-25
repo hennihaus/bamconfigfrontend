@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import type { Team } from "@hennihaus/bamconfigbackend";
+import { getRandomAvatarThumbnailUrl } from "@/modules/team/services/thumbnail-service";
+import { toRef } from "vue";
+import { useTeam } from "@/modules/team/composables/team";
+
+const props = defineProps<{ team: Team }>();
+
+const thumbnailUrl = getRandomAvatarThumbnailUrl();
+
+const { type, totalRequests, hasPassedStatus } = useTeam(toRef(props, "team"));
+</script>
+
 <template>
   <RouterLink
     :to="{
@@ -11,7 +24,7 @@
       <div class="header">{{ team.username }}</div>
       <div class="description">{{ $t("team.type") }}: {{ type }}</div>
       <div class="description">
-        {{ $tc("team.request", 2) }}: {{ requests }}
+        {{ $t("team.request", 2) }}: {{ totalRequests }}
       </div>
       <div class="description">
         {{ $t("common.status") }}: {{ hasPassedStatus }}
@@ -19,66 +32,14 @@
       <div class="metadata">
         <template v-if="team.students.length">
           <span v-for="(student, index) in team.students" :key="student.uuid">
-            {{ student.firstname }} {{ student.lastname
-            }}<span v-if="index !== team.students.length - 1">, </span>
+            {{ student.firstname }} {{ student.lastname }}
+            <span v-if="index !== team.students.length - 1">, </span>
           </span>
         </template>
         <template v-else>
-          {{ $tc("team.student", 0) }}
+          {{ $t("team.student", 0) }}
         </template>
       </div>
     </div>
   </RouterLink>
 </template>
-
-<script>
-import baseImageError from "@/modules/base/directives/base-image-error";
-import { getRandomAvatarThumbnailUrl } from "@/modules/team/services/thumbnail-service";
-
-export default {
-  name: "TeamListItem",
-  directives: {
-    baseImageError,
-  },
-  props: {
-    team: {
-      type: Object,
-      required: true,
-    },
-  },
-  setup() {
-    return {
-      thumbnailUrl: getRandomAvatarThumbnailUrl(),
-    };
-  },
-  computed: {
-    type() {
-      let type = "";
-
-      switch (this.team.type) {
-        case "EXAMPLE":
-          type = "Beispiel";
-          break;
-        case "REGULAR":
-          type = "Regulär";
-          break;
-        default:
-          type = "Unbekannt";
-      }
-
-      return type;
-    },
-    requests() {
-      return Object.values(this.team.statistics).reduce(
-        (sum, requests) => sum + requests,
-        0
-      );
-    },
-    hasPassedStatus() {
-      return this.team.hasPassed
-        ? this.$tc("team.passed", 1)
-        : this.$tc("team.passed", 0);
-    },
-  },
-};
-</script>

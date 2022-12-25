@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import type { Task } from "@hennihaus/bamconfigbackend";
+import { toRef } from "vue";
+import { useTask } from "@/modules/task/composables/task";
+
+const props = defineProps<{ task: Task }>();
+
+const { integrationStep, thumbnailUrl, isAsyncTask } = useTask(
+  toRef(props, "task")
+);
+</script>
+
 <template>
   <RouterLink
     :to="{ name: 'TaskDetails', params: { uuid: task.uuid } }"
@@ -15,13 +27,13 @@
       src="https://activemq.apache.org/assets/img/activemq_logo_white_vertical.png"
       class="ui tiny image custom-image"
     />
+
     <div class="content">
       <div class="header">
         {{ task.title }}
       </div>
       <div class="description">
-        {{ task.integrationStep }}{{ integrationStep }}
-        {{ $t("task.integration-step") }}
+        {{ integrationStep }} {{ $t("task.integration-step") }}
       </div>
       <div class="metadata">
         <span v-for="(endpoint, index) in task.endpoints" :key="endpoint.uuid">
@@ -32,48 +44,6 @@
     </div>
   </RouterLink>
 </template>
-
-<script>
-import baseImageError from "@/modules/base/directives/base-image-error";
-
-export default {
-  name: "TaskListItem",
-  directives: {
-    baseImageError,
-  },
-  props: {
-    task: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    isAsyncTask() {
-      return (
-        this.task.banks && this.task.banks.length && this.task.banks[0].isAsync
-      );
-    },
-    thumbnailUrl() {
-      return this.task.banks[0].thumbnailUrl;
-    },
-    integrationStep() {
-      if (this.$i18n.locale === "de") {
-        return ".";
-      }
-      if (this.task.integrationStep === 1) {
-        return "st";
-      }
-      if (this.task.integrationStep === 2) {
-        return "nd";
-      }
-      if (this.task.integrationStep === 3) {
-        return "rd";
-      }
-      return "th";
-    },
-  },
-};
-</script>
 
 <style scoped>
 .custom-item {

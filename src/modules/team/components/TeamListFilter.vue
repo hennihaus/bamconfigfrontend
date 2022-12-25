@@ -1,17 +1,126 @@
+<script setup lang="ts">
+import { useField, useForm } from "vee-validate";
+import type { Bank } from "@hennihaus/bamconfigbackend";
+import { useRoute, useRouter } from "vue-router";
+import { computed } from "vue";
+import { useBaseI18n } from "@/modules/base/composables/i18n";
+import { TeamType } from "@/models/team-type";
+import BaseCheckbox from "@/modules/base/components/BaseCheckbox.vue";
+import type {
+  FormQuery,
+  HasPassed,
+} from "@/modules/team/services/query-service";
+import { buildQuery } from "@/modules/team/services/query-service";
+
+const { t } = useBaseI18n();
+const route = useRoute();
+const router = useRouter();
+const teamTypes = TeamType;
+
+withDefaults(
+  defineProps<{
+    banks: Bank[];
+    itemsPerPage?: number;
+  }>(),
+  {
+    itemsPerPage: 8,
+  }
+);
+
+const { handleSubmit, isSubmitting } = useForm<FormQuery>({
+  initialValues: {
+    username: "",
+    jmsQueue: "",
+    studentFirstname: "",
+    studentLastname: "",
+    banks: [],
+    ...route.query,
+  },
+  keepValuesOnUnmount: false,
+  validateOnMount: false,
+});
+const onSubmit = handleSubmit.withControlled((values: FormQuery) => {
+  const query = buildQuery(values);
+  router.push({ name: "TeamList", query });
+});
+const onReset = handleSubmit.withControlled((_, { resetForm }) => {
+  resetForm();
+  router.push({ name: "TeamList" });
+});
+
+const { value: username, handleBlur: handleUsernameBlur } = useField<string>(
+  "username",
+  {},
+  { validateOnValueUpdate: false, type: "text" }
+);
+const { value: jmsQueue, handleBlur: handleJmsQueueBlur } = useField<string>(
+  "jmsQueue",
+  {},
+  { validateOnValueUpdate: false, type: "text" }
+);
+const { value: hasPassed, handleBlur: handleHasPassedBlur } =
+  useField<HasPassed>(
+    "hasPassed",
+    {},
+    { validateOnValueUpdate: false, type: "radio" }
+  );
+const { value: type, handleBlur: handleTypeBlur } = useField<TeamType>(
+  "type",
+  {},
+  { validateOnValueUpdate: false, type: "radio" }
+);
+const { value: minRequests, handleBlur: handleMinRequestsBlur } =
+  useField<number>(
+    "minRequests",
+    {},
+    { validateOnValueUpdate: false, type: "number" }
+  );
+const { value: maxRequests, handleBlur: handleMaxRequestsBlur } =
+  useField<number>(
+    "maxRequests",
+    {},
+    { validateOnValueUpdate: false, type: "number" }
+  );
+const { value: studentFirstname, handleBlur: handleStudentFirstnameBlur } =
+  useField<string>(
+    "studentFirstname",
+    {},
+    { validateOnValueUpdate: false, type: "text" }
+  );
+const { value: studentLastname, handleBlur: handleStudentLastnameBlur } =
+  useField<string>(
+    "studentLastname",
+    {},
+    { validateOnValueUpdate: false, type: "text" }
+  );
+
+const capitalizePassed = computed(() => {
+  return (
+    t("team.passed", 1).charAt(0).toUpperCase() + t("team.passed", 1).slice(1)
+  );
+});
+</script>
+
 <template>
-  <VeeForm
-    v-slot="{ handleSubmit }"
-    :initial-values="initialValues"
-    class="ui form"
-  >
+  <form class="ui form" @submit="onSubmit">
     <div class="field">
       <label>{{ $t("team.username") }}</label>
-      <VeeField :placeholder="$t('common.name')" name="username" type="text" />
+      <input
+        v-model="username"
+        :placeholder="$t('common.name')"
+        type="text"
+        @blur="handleUsernameBlur"
+      />
     </div>
 
     <div class="field">
       <label>{{ $t("team.jms-queue") }}</label>
-      <VeeField :placeholder="$t('common.name')" name="jmsQueue" type="text" />
+      <input
+        v-model="jmsQueue"
+        :placeholder="$t('common.name')"
+        type="text"
+        @blur="handleJmsQueueBlur"
+      />
     </div>
 
     <div class="field">
@@ -19,221 +128,151 @@
       <div class="inline fields">
         <div class="field">
           <div class="ui radio checkbox">
-            <VeeField name="hasPassed" type="radio" value="PASSED" />
-            <label>{{ $tc("team.passed-checkbox", 1) }}</label>
+            <input
+              v-model="hasPassed"
+              value="PASSED"
+              type="radio"
+              @blur="handleHasPassedBlur"
+            />
+            <label>{{ $t("common.answer", 1) }}</label>
           </div>
         </div>
         <div class="field">
           <div class="ui radio checkbox">
-            <VeeField name="hasPassed" type="radio" value="NOT_PASSED" />
-            <label>{{ $tc("team.passed-checkbox", 0) }}</label>
+            <input
+              v-model="hasPassed"
+              value="NOT_PASSED"
+              type="radio"
+              @blur="handleHasPassedBlur"
+            />
+            <label>{{ $t("common.answer", 0) }}</label>
           </div>
         </div>
         <div class="field">
           <div class="ui radio checkbox">
-            <VeeField name="hasPassed" type="radio" :value="null" />
-            <label>{{ $tc("team.passed-checkbox", 2) }}</label>
+            <input
+              v-model="hasPassed"
+              :value="undefined"
+              type="radio"
+              @blur="handleHasPassedBlur"
+            />
+            <label>{{ $t("common.answer", 2) }}</label>
           </div>
         </div>
       </div>
     </div>
 
     <div class="field">
-      <label>{{ $tc("team.type") }}</label>
+      <label>{{ $t("team.type") }}</label>
       <div class="inline fields">
-        <div class="field">
+        <div
+          v-for="(teamType, _, index) in teamTypes"
+          :key="teamType"
+          class="field"
+        >
           <div class="ui radio checkbox">
-            <VeeField name="type" type="radio" value="EXAMPLE" />
-            <label>{{ $tc("team.type-checkbox", 0) }}</label>
+            <input
+              v-model="type"
+              :value="teamType"
+              type="radio"
+              @blur="handleTypeBlur"
+            />
+            <label>{{ $t("team.type-checkbox", index) }}</label>
           </div>
         </div>
         <div class="field">
           <div class="ui radio checkbox">
-            <VeeField name="type" type="radio" value="REGULAR" />
-            <label>{{ $tc("team.type-checkbox", 1) }}</label>
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui radio checkbox">
-            <VeeField name="type" type="radio" :value="null" />
-            <label>{{ $tc("team.type-checkbox", 2) }}</label>
+            <input
+              v-model="type"
+              :value="undefined"
+              type="radio"
+              @blur="handleTypeBlur"
+            />
+            <label>{{ $t("team.type-checkbox", 2) }}</label>
           </div>
         </div>
       </div>
     </div>
 
     <div class="field">
-      <label>{{ $tc("team.request", 2) }}</label>
+      <label>{{ $t("team.request", 2) }}</label>
       <div class="two fields">
         <div class="field">
-          <VeeField
+          <input
+            v-model="minRequests"
             :placeholder="$t('team.request-min-placeholder')"
-            name="minRequests"
             type="number"
             min="0"
             step="1"
             onfocus="this.previousValue = this.value"
             onkeydown="this.previousValue = this.value"
             oninput="validity.valid || (value = this.previousValue)"
+            @blur="handleMinRequestsBlur"
           />
         </div>
         <div class="field">
-          <VeeField
+          <input
+            v-model="maxRequests"
             :placeholder="$t('team.request-max-placeholder')"
-            name="maxRequests"
             type="number"
             min="0"
             step="1"
             onfocus="this.previousValue = this.value"
             onkeydown="this.previousValue = this.value"
             oninput="validity.valid || (value = this.previousValue)"
+            @blur="handleMaxRequestsBlur"
           />
         </div>
       </div>
     </div>
 
     <div class="field">
-      <label>{{ $tc("team.student", 1) }}</label>
+      <label>{{ $t("team.student", 1) }}</label>
       <div class="two fields">
         <div class="field">
-          <VeeField
-            :placeholder="$t('team.student-firstname')"
-            name="studentFirstname"
+          <input
+            v-model="studentFirstname"
+            :placeholder="$t('common.firstname')"
             type="text"
+            @blur="handleStudentFirstnameBlur"
           />
         </div>
         <div class="field">
-          <VeeField
-            :placeholder="$t('team.student-lastname')"
-            name="studentLastname"
+          <input
+            v-model="studentLastname"
+            :placeholder="$t('common.lastname')"
             type="text"
+            @blur="handleStudentLastnameBlur"
           />
         </div>
       </div>
     </div>
 
     <div v-if="banks.length" class="grouped fields">
-      <label>{{ $tc("core.bank", 2) }}</label>
-      <div v-for="bank in banks" :key="bank.uuid" class="field">
-        <div class="ui checkbox">
-          <VeeField name="banks" type="checkbox" :value="bank.name" />
-          <label>{{ bank.name }}</label>
-        </div>
-      </div>
+      <label>{{ $t("core.bank", 2) }}</label>
+      <BaseCheckbox
+        v-for="bank in banks"
+        :key="bank.uuid"
+        :value="bank.name"
+        name="banks"
+      />
     </div>
 
     <div class="ui fluid buttons">
-      <button class="ui olive button" @click="handleSubmit($event, onSubmit)">
+      <button :disabled="isSubmitting" type="submit" class="ui olive button">
         {{ $t("common.search") }}
       </button>
       <button
+        :disabled="isSubmitting"
+        type="button"
         class="ui orange icon reset button"
-        @click="handleSubmit($event, onReset)"
+        @click="onReset"
       >
         <i class="undo icon" />
       </button>
     </div>
-  </VeeForm>
+  </form>
 </template>
-
-<script>
-import { Field as VeeField, Form as VeeForm } from "vee-validate";
-
-export default {
-  name: "TeamListFilter",
-  components: {
-    VeeForm,
-    VeeField,
-  },
-  props: {
-    banks: {
-      type: Array,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      initialValues: {
-        type: null,
-        username: "",
-        jmsQueue: "",
-        hasPassed: null,
-        minRequests: null,
-        maxRequests: null,
-        studentFirstname: "",
-        studentLastname: "",
-        banks: [],
-        ...this.$route.query,
-      },
-    };
-  },
-  computed: {
-    capitalizePassed() {
-      return (
-        this.$tc("team.passed", 1).charAt(0).toUpperCase() +
-        this.$tc("team.passed", 1).slice(1)
-      );
-    },
-  },
-  methods: {
-    onReset(values, { resetForm }) {
-      resetForm();
-      this.$router.push({ name: "TeamList" });
-    },
-    onSubmit(values) {
-      const query = this.buildQuery(values);
-
-      this.$router.push({
-        name: "TeamList",
-        query,
-      });
-    },
-    buildQuery(values) {
-      const query = { ...values };
-
-      delete query.cursor;
-
-      if (!query.type) {
-        delete query.type;
-      }
-      if (!query.username) {
-        delete query.username;
-      }
-      if (!query.jmsQueue) {
-        delete query.jmsQueue;
-      }
-      if (!query.hasPassed) {
-        delete query.hasPassed;
-      }
-      if (!query.minRequests) {
-        delete query.minRequests;
-      }
-      if (!query.maxRequests) {
-        delete query.maxRequests;
-      }
-      if (!query.studentFirstname) {
-        delete query.studentFirstname;
-      }
-      if (!query.studentLastname) {
-        delete query.studentLastname;
-      }
-      if (!query.banks.length) {
-        delete query.banks;
-      }
-      if (
-        query.minRequests &&
-        query.maxRequests &&
-        +query.minRequests > +query.maxRequests
-      ) {
-        delete query.minRequests;
-        delete query.maxRequests;
-      }
-
-      return query;
-    },
-  },
-};
-</script>
 
 <style scoped>
 .reset {

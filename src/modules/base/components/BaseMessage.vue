@@ -1,3 +1,17 @@
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    message: string;
+    type?: string;
+    size?: string;
+  }>(),
+  {
+    type: "negative",
+    size: "",
+  }
+);
+</script>
+
 <template>
   <div class="ui message" :class="[type, size]">
     <div class="header">
@@ -6,25 +20,3 @@
     <slot name="description" />
   </div>
 </template>
-
-<script>
-export default {
-  name: "BaseMessage",
-  props: {
-    message: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: false,
-      default: "negative",
-    },
-    size: {
-      type: String,
-      required: false,
-      default: "",
-    },
-  },
-};
-</script>

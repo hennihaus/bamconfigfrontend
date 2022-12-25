@@ -1,3 +1,24 @@
+<script setup lang="ts">
+import { useTasksFetch } from "@/modules/task/composables/fetch";
+import { nextTick, onMounted, onUnmounted } from "vue";
+import TaskDetailsView from "@/modules/task/components/TaskDetailsView.vue";
+import TaskEndpointList from "@/modules/task/components/TaskEndpointList.vue";
+import BankCreditConfigurationList from "@/modules/bank/components/BankCreditConfigurationList.vue";
+import BaseLoading from "@/modules/base/components/BaseLoading.vue";
+import BaseMessage from "@/modules/base/components/BaseMessage.vue";
+
+const emit = defineEmits<{ (event: "close"): void }>();
+
+const afterTaskFetch = () => {
+  nextTick().then(() => setTimeout(() => window.print(), 1000));
+};
+const { activatedTasks, isLoading } = useTasksFetch(afterTaskFetch);
+
+const onClose = () => emit("close");
+onMounted(() => window.addEventListener("afterprint", onClose));
+onUnmounted(() => window.removeEventListener("afterprint", onClose));
+</script>
+
 <template>
   <template v-if="!isLoading">
     <div v-for="task in activatedTasks" :key="task.uuid" class="page">
@@ -11,72 +32,13 @@
     </div>
 
     <BaseMessage
-      v-if="!tasks.length"
-      :message="$tc('task.not-found', 2)"
+      v-if="!activatedTasks.length"
+      :message="$t('task.not-found', 2)"
       size="massive"
     />
   </template>
   <BaseLoading v-else />
 </template>
-
-<script>
-import BaseMessage from "@/modules/base/components/BaseMessage.vue";
-import TaskDetailsView from "@/modules/task/components/TaskDetailsView.vue";
-import TaskEndpointList from "@/modules/task/components/TaskEndpointList.vue";
-import BankCreditConfigurationList from "@/modules/bank/components/BankCreditConfigurationList.vue";
-import BaseLoading from "@/modules/base/components/BaseLoading.vue";
-
-export default {
-  name: "TaskPrint",
-  components: {
-    BaseLoading,
-    BankCreditConfigurationList,
-    TaskEndpointList,
-    TaskDetailsView,
-    BaseMessage,
-  },
-  emits: ["close"],
-  data() {
-    return {
-      isLoading: true,
-      tasks: [],
-    };
-  },
-  computed: {
-    activatedTasks() {
-      return this.tasks.filter((task) => {
-        if (!task.banks.some((bank) => bank.isAsync)) {
-          return true;
-        }
-        return task.banks.some((bank) => bank.isActive);
-      });
-    },
-  },
-  created() {
-    this.fetchTasks();
-  },
-  mounted() {
-    window.addEventListener("afterprint", this.onClose);
-  },
-  unmounted() {
-    window.removeEventListener("afterprint", this.onClose);
-  },
-  methods: {
-    fetchTasks() {
-      this.$taskApi
-        .getAll()
-        .then((tasks) => (this.tasks = tasks))
-        .catch(() => (this.tasks = []))
-        .finally(() => (this.isLoading = false))
-        .then(() => this.$nextTick())
-        .then(() => setTimeout(() => window.print(), 1000));
-    },
-    onClose() {
-      this.$emit("close");
-    },
-  },
-};
-</script>
 
 <style scoped>
 .page {

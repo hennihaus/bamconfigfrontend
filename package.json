@@ -1,33 +1,46 @@
 {
   "name": "bamconfigfrontend",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode=production",
     "preview": "vite build --mode=developement && vite preview",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --max-warnings 0"
+    "build": "run-p type-check build-only",
+    "build-only": "vite build --mode=production",
+    "type-check": "vue-tsc --noEmit --strict",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore --max-warnings 0"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^35.4.0",
+    "@ckeditor/ckeditor5-vue": "^4.0.1",
+    "@hennihaus/bamconfigbackend": "^9.1.0",
     "@vee-validate/i18n": "^4.7.3",
     "@vee-validate/rules": "^4.7.3",
-    "axios": "^1.1.3",
+    "axios": "^1.2.1",
     "qs": "^6.11.0",
     "semantic-ui-css": "^2.5.0",
     "uuid": "^9.0.0",
     "vee-validate": "^4.7.3",
-    "vue": "^3.2.41",
-    "vue-dompurify-html": "^3.1.1",
+    "vue": "^3.2.45",
+    "vue-dompurify-html": "^3.1.2",
     "vue-i18n": "^9.2.2",
-    "vue-router": "^4.1.5"
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@intlify/unplugin-vue-i18n": "^0.8.0",
+    "@intlify/unplugin-vue-i18n": "^0.8.1",
     "@rushstack/eslint-patch": "^1.1.4",
-    "@vitejs/plugin-vue": "^3.2.0",
+    "@types/node": "^18.11.12",
+    "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "@vue/tsconfig": "^0.1.3",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
-    "vite": "^3.1.8"
+    "typescript": "~4.7.4",
+    "vite": "^4.0.0",
+    "vite-plugin-checker": "^0.5.2",
+    "vue-tsc": "^1.0.12"
   }
 }
