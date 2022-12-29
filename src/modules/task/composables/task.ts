@@ -50,11 +50,14 @@ export const useTask = (task: Ref<Task>) => {
       .some((bank) => bank.isActive);
   });
 
+  const updatedAt = computed(() => new Date(task.value.updatedAt));
+
   return {
     integrationStep,
     thumbnailUrl,
     description,
     isAsyncTask,
     hasNoAsyncBanksActivated,
+    updatedAt,
   };
 };

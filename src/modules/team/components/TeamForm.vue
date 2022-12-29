@@ -37,9 +37,17 @@ const onSubmit = handleSubmit((team: Team) => {
     (student) => student.firstname && student.lastname
   );
   const statistics = mergeStatistics(team);
+  const createdAt = team.createdAt ? team.createdAt : createLocalDateTime();
+  const updatedAt = createLocalDateTime();
 
-  emit("submitTeam", { ...team, students, statistics });
+  emit("submitTeam", { ...team, students, statistics, createdAt, updatedAt });
 });
+
+const createLocalDateTime = (): string => {
+  const date = new Date();
+  date.setMilliseconds(0);
+  return date.toISOString().split(".000Z")[0];
+};
 </script>
 
 <template>

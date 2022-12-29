@@ -122,7 +122,9 @@
     "money": "euro",
     "save": "Save",
     "save-lost-warning": "Your changes will not be saved. Still further?",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "last-updated": "Changed on",
+    "created": "Created on"
   },
   "messages": {
     "unique_username": "The {field} field exists already",

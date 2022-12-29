@@ -13,7 +13,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^35.4.0",
     "@ckeditor/ckeditor5-vue": "^4.0.1",
-    "@hennihaus/bamconfigbackend": "^9.1.0",
+    "@hennihaus/bamconfigbackend": "^9.2.1",
     "@vee-validate/i18n": "^4.7.3",
     "@vee-validate/rules": "^4.7.3",
     "axios": "^1.2.1",
