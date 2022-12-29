@@ -14,6 +14,7 @@ const {
   description,
   isAsyncTask,
   hasNoAsyncBanksActivated,
+  updatedAt,
 } = useTask(toRef(props, "task"));
 
 const { name, emailLink } = useContact(toRef(props, "task"));
@@ -49,6 +50,8 @@ const { name, emailLink } = useContact(toRef(props, "task"));
 
       <div class="six wide column">
         <TaskEndpointList :endpoints="task.endpoints" />
+        <h4>{{ $t("common.last-updated") }}</h4>
+        <div>{{ $d(updatedAt, "long") }}</div>
       </div>
 
       <div class="four wide column">

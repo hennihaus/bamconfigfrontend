@@ -36,10 +36,16 @@ export const useTeam = (team: Ref<Team>) => {
 
   const isRegular = computed(() => team.value.type === TeamType.REGULAR);
 
+  const createdAt = computed(() => new Date(team.value.createdAt));
+
+  const updatedAt = computed(() => new Date(team.value.updatedAt));
+
   return {
     type,
     totalRequests,
     hasPassedStatus,
     isRegular,
+    createdAt,
+    updatedAt,
   };
 };

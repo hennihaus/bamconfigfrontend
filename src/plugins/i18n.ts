@@ -12,6 +12,16 @@ export type NumberSchema = {
   };
 };
 
+export type DateTimeSchema = {
+  long: {
+    year: "numeric";
+    month: "numeric";
+    day: "numeric";
+    hour: "2-digit";
+    minute: "2-digit";
+  };
+};
+
 export type Locales = "de" | "en";
 
 const currency: NumberSchema = {
@@ -22,12 +32,31 @@ const currency: NumberSchema = {
   },
 };
 
+const dateTime: DateTimeSchema = {
+  long: {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  },
+};
+
 const numberFormats = {
   de: {
     ...currency,
   },
   en: {
     ...currency,
+  },
+};
+
+const datetimeFormats = {
+  de: {
+    ...dateTime,
+  },
+  en: {
+    ...dateTime,
   },
 };
 
@@ -41,6 +70,7 @@ const i18n = createI18n<[MessageSchema], Locales, false>({
     en,
   },
   numberFormats,
+  datetimeFormats,
 });
 
 export default i18n;

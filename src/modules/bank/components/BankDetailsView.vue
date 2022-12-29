@@ -6,7 +6,7 @@ import BankCreditConfigurationListItem from "@/modules/bank/components/BankCredi
 
 const props = defineProps<{ bank: Bank }>();
 
-const { activeStatus, asyncStatus } = useBank(toRef(props, "bank"));
+const { activeStatus, asyncStatus, updatedAt } = useBank(toRef(props, "bank"));
 </script>
 
 <template>
@@ -41,6 +41,8 @@ const { activeStatus, asyncStatus } = useBank(toRef(props, "bank"));
         {{ $t("common.counter", 1).toLowerCase() }}
       </div>
       <div v-else>{{ $t("common.counter", 2).toLowerCase() }}</div>
+      <h4>{{ $t("common.last-updated") }}</h4>
+      <div>{{ $d(updatedAt, "long") }}</div>
     </div>
   </div>
 

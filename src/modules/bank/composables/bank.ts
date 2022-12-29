@@ -24,10 +24,13 @@ export const useBank = (bank: Ref<Bank>) => {
     () => bank.value.isAsync && !bank.value.isActive
   );
 
+  const updatedAt = computed(() => new Date(bank.value.updatedAt));
+
   return {
     activeStatus,
     asyncStatus,
     isAsyncBankActive,
     isAsyncBankNotActive,
+    updatedAt,
   };
 };

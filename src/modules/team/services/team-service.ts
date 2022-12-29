@@ -11,6 +11,8 @@ export const createEmptyTeam = (): Team => ({
   students: [createEmptyStudent()],
   statistics: {},
   hasPassed: false,
+  createdAt: "",
+  updatedAt: "",
 });
 
 export const createEmptyStudent = (): Student => ({

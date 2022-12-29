@@ -12,7 +12,7 @@ const props = withDefaults(
   { thumbnailUrl: () => getRandomAvatarThumbnailUrl() }
 );
 
-const { hasPassedStatus } = useTeam(toRef(props, "team"));
+const { hasPassedStatus, createdAt, updatedAt } = useTeam(toRef(props, "team"));
 </script>
 
 <template>
@@ -20,31 +20,42 @@ const { hasPassedStatus } = useTeam(toRef(props, "team"));
   <div class="ui divider" />
 
   <div class="ui grid">
-    <div v-if="thumbnailUrl" class="four wide column">
+    <div v-if="thumbnailUrl" class="two wide column">
       <img v-base-image-error :src="thumbnailUrl" class="ui small image" />
     </div>
 
-    <div class="four wide column">
-      <h4>{{ $t("team.username") }}</h4>
-      <div>{{ team.username }}</div>
-      <h4>{{ $t("team.password") }}</h4>
-      <div>{{ team.password }}</div>
-    </div>
+    <div class="fourteen wide column">
+      <div class="ui grid">
+        <div class="four wide column">
+          <h4>{{ $t("team.username") }}</h4>
+          <div>{{ team.username }}</div>
+          <h4>{{ $t("team.password") }}</h4>
+          <div>{{ team.password }}</div>
+        </div>
 
-    <div class="four wide column">
-      <h4>{{ $t("team.jms-queue") }}</h4>
-      <div>{{ team.jmsQueue }}</div>
-      <h4>{{ $t("common.status") }}</h4>
-      <div>{{ hasPassedStatus }}</div>
-    </div>
+        <div class="four wide column">
+          <h4>{{ $t("team.jms-queue") }}</h4>
+          <div>{{ team.jmsQueue }}</div>
+          <h4>{{ $t("common.status") }}</h4>
+          <div>{{ hasPassedStatus }}</div>
+        </div>
 
-    <div class="four wide column">
-      <h4>{{ $t("team.student", 2) }}</h4>
-      <div v-for="student in team.students" :key="student.uuid">
-        {{ student.firstname }} {{ student.lastname }}
-      </div>
-      <div v-if="!team.students.length">
-        {{ $t("team.student", 0) }} {{ $t("common.available", 1) }}
+        <div class="four wide column">
+          <h4>{{ $t("team.student", 2) }}</h4>
+          <div v-for="student in team.students" :key="student.uuid">
+            {{ student.firstname }} {{ student.lastname }}
+          </div>
+          <div v-if="!team.students.length">
+            {{ $t("team.student", 0) }} {{ $t("common.available", 1) }}
+          </div>
+        </div>
+
+        <div class="four wide column">
+          <h4>{{ $t("common.created") }}</h4>
+          <div>{{ $d(createdAt, "long") }}</div>
+          <h4>{{ $t("common.last-updated") }}</h4>
+          <div>{{ $d(updatedAt, "long") }}</div>
+        </div>
       </div>
     </div>
   </div>
