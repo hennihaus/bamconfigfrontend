@@ -47,7 +47,8 @@
     "logout": "Sign out",
     "team-recreate": "Distribute teams",
     "team-recreate-warning": "When redistributing teams to different banks, all existing statistics will be reset. All groups failed.",
-    "team-recreate-error": "Error redistributing teams"
+    "team-recreate-error": "Error redistributing teams",
+    "async": "asynchronous"
   },
   "task": {
     "integration-step": "Integration step",

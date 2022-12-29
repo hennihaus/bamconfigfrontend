@@ -21,7 +21,7 @@ const isTeamItemActive = computed(() =>
   route.matched.some(({ name }) => name === "TheTeam")
 );
 
-const { banks } = useBanksFetch();
+const { asyncBanks } = useBanksFetch();
 const { isLoading, recreateStatistics } = useStatisticsFetch();
 
 const onRecreateStatistics = (limit: number) => {
@@ -43,19 +43,21 @@ const onRecreateStatistics = (limit: number) => {
       </div>
     </div>
 
-    <div v-if="isBankItemActive && banks.length" class="item">
+    <div v-if="isBankItemActive && asyncBanks.length" class="item">
       <div class="tiny ui yellow simple dropdown button">
         {{ $t("core.team-recreate") }}
         <div class="menu">
           <div
-            v-for="limit in banks.length"
+            v-for="limit in asyncBanks.length"
             :key="limit"
             class="item"
             @click="onRecreateStatistics(limit)"
           >
             {{ limit }}
-            <span v-if="limit === 1">{{ $t("core.bank", 1) }}</span>
-            <span v-else>{{ $t("core.bank", 2) }}</span>
+            <span v-if="limit === 1">
+              {{ $t("core.async") }} {{ $t("core.bank", 1) }}
+            </span>
+            <span v-else>{{ $t("core.async") }} {{ $t("core.bank", 2) }}</span>
           </div>
         </div>
       </div>

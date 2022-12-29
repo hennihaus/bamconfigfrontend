@@ -47,7 +47,8 @@
     "logout": "Abmelden",
     "team-recreate": "Teams verteilen",
     "team-recreate-warning": "Bei der Neuverteilung der Teams auf unterschiedliche Banken werden alle existierende Statistiken zurückgesetzt. Alle Gruppen haben nicht bestanden.",
-    "team-recreate-error": "Fehler beim Neuverteilen der Teams"
+    "team-recreate-error": "Fehler beim Neuverteilen der Teams",
+    "async": "asynchrone"
   },
   "task": {
     "integration-step": "Integrationsschritt",
