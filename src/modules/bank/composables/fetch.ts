@@ -1,5 +1,6 @@
 import type { Ref } from "vue";
 import {
+  computed,
   inject,
   onBeforeMount,
   onUnmounted,
@@ -28,8 +29,11 @@ export const useBanksFetch = () => {
       .finally(() => (isLoading.value = false))
   );
 
+  const asyncBanks = computed(() => banks.value.filter((bank) => bank.isAsync));
+
   return {
     banks,
+    asyncBanks,
     isLoading: readonly(isLoading),
   };
 };
