@@ -19,6 +19,7 @@ export type DateTimeSchema = {
     day: "numeric";
     hour: "2-digit";
     minute: "2-digit";
+    timeZoneName: "short";
   };
 };
 
@@ -39,6 +40,7 @@ const dateTime: DateTimeSchema = {
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    timeZoneName: "short",
   },
 };
 
