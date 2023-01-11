@@ -17,30 +17,43 @@ import TeamFormCommon from "@/modules/team/components/TeamFormCommon.vue";
 
 const emit = defineEmits<{ (event: "submitTeam", team: Team): void }>();
 
-const team = inject(TEAM, () => ref(createEmptyTeam()), true);
+const oldTeam = inject(TEAM, () => ref<Team | undefined>(undefined), true);
 
-const initialValues = computed(() => ({
-  ...team.value,
-  students: team.value.students.length
-    ? team.value.students
-    : [createEmptyStudent()],
-  statistics: removeStatistics(team.value),
-}));
+const initialValues = computed(() => {
+  if (oldTeam.value) {
+    return {
+      ...oldTeam.value,
+      students: oldTeam.value.students.length
+        ? oldTeam.value.students
+        : [createEmptyStudent()],
+      statistics: removeStatistics(oldTeam.value),
+    };
+  }
+  return createEmptyTeam();
+});
 const { handleSubmit, validateField } = useForm<Team>({
   initialValues,
   validateOnMount: false,
   keepValuesOnUnmount: false,
 });
 
-const onSubmit = handleSubmit((team: Team) => {
-  const students = team.students.filter(
+const onSubmit = handleSubmit((newTeam: Team) => {
+  const statistics = mergeStatistics(newTeam, oldTeam.value);
+  const students = newTeam.students.filter(
     (student) => student.firstname && student.lastname
   );
-  const statistics = mergeStatistics(team);
-  const createdAt = team.createdAt ? team.createdAt : createLocalDateTime();
+  const createdAt = newTeam.createdAt
+    ? newTeam.createdAt
+    : createLocalDateTime();
   const updatedAt = createLocalDateTime();
 
-  emit("submitTeam", { ...team, students, statistics, createdAt, updatedAt });
+  emit("submitTeam", {
+    ...newTeam,
+    students,
+    statistics,
+    createdAt,
+    updatedAt,
+  });
 });
 
 const createLocalDateTime = (): string => {

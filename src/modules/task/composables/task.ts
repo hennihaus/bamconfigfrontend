@@ -1,15 +1,14 @@
 import type { Ref } from "vue";
 import { computed } from "vue";
 import type { Task } from "@hennihaus/bamconfigbackend";
-import i18n from "@/plugins/i18n";
 import { useBaseI18n } from "@/modules/base/composables/i18n";
 import { IntegrationStep } from "@/models/integration-step";
 
 export const useTask = (task: Ref<Task>) => {
-  const { t } = useBaseI18n();
+  const { t, locale } = useBaseI18n();
 
   const integrationStepNumber = computed(() => {
-    if (i18n.global.locale.value === "de") {
+    if (locale.value === "de") {
       return ".";
     }
     if (task.value.integrationStep === IntegrationStep.FIRST) {
@@ -37,7 +36,9 @@ export const useTask = (task: Ref<Task>) => {
 
   const isAsyncTask = computed(() => {
     return (
-      task.value.banks && task.value.banks.length && task.value.banks[0].isAsync
+      task.value.banks &&
+      task.value.banks.length > 0 &&
+      task.value.banks[0].isAsync
     );
   });
 
