@@ -31,7 +31,7 @@ jobs:
         run: npm run lint
 
       - name: Run unit tests
-        run: npm run test
+        run: npm run test:ci
 
       # - name: Run e2e Tests
       #   run: npm run all:e2e
