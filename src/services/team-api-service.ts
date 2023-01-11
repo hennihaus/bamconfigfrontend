@@ -1,8 +1,14 @@
 import { http } from "@/services/http-common";
-import type { Team, Teams, Unique } from "@hennihaus/bamconfigbackend";
+import type {
+  Team,
+  TeamQuery,
+  Teams,
+  Unique,
+} from "@hennihaus/bamconfigbackend";
+import type { PaginationQuery } from "@/models/pagination-query";
 
 export class TeamApiService {
-  getAll(params: unknown): Promise<Teams> {
+  getAll(params: TeamQuery | PaginationQuery): Promise<Teams> {
     return http
       .get<Teams>("/teams", { params })
       .then((response) => response.data);

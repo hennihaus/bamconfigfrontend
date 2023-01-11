@@ -1,12 +1,12 @@
-import type { Query } from "@hennihaus/bamconfigbackend";
+import type { TeamQuery } from "@hennihaus/bamconfigbackend";
 
 export type HasPassed = "PASSED" | "NOT_PASSED";
-export type FormQuery = Omit<Query, "limit" | "hasPassed"> & {
+export type TeamFormQuery = Omit<TeamQuery, "limit" | "hasPassed"> & {
   hasPassed?: HasPassed;
 };
 
-export const buildQuery = (values: FormQuery): FormQuery => {
-  const query: FormQuery = {
+export const buildQuery = (values: TeamFormQuery): TeamFormQuery => {
+  const query: TeamFormQuery = {
     ...values,
   };
 
@@ -15,6 +15,9 @@ export const buildQuery = (values: FormQuery): FormQuery => {
   }
   if (!query.username) {
     delete query.username;
+  }
+  if (!query.password) {
+    delete query.password;
   }
   if (!query.jmsQueue) {
     delete query.jmsQueue;

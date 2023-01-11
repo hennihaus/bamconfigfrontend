@@ -30,8 +30,8 @@ jobs:
       - name: Run lint tests
         run: npm run lint
 
-      # - name: Run unit tests
-      #  run: npm run test:unit
+      - name: Run unit tests
+        run: npm run test:ci
 
       # - name: Run e2e Tests
       #   run: npm run all:e2e

@@ -21,13 +21,15 @@ export const useBanksFetch = () => {
   const banks = ref<Bank[]>([]);
   const isLoading = ref(true);
 
-  onBeforeMount(() =>
-    bankApi
-      .getAll()
-      .then((result) => (banks.value = result))
-      .catch(() => (banks.value = []))
-      .finally(() => (isLoading.value = false))
-  );
+  onBeforeMount(async () => {
+    try {
+      banks.value = await bankApi.getAll();
+    } catch (e) {
+      banks.value = [];
+    } finally {
+      isLoading.value = false;
+    }
+  });
 
   const asyncBanks = computed(() => banks.value.filter((bank) => bank.isAsync));
 

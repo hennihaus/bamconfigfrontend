@@ -16,11 +16,11 @@ export const removeStatistics = (team: Team): Statistics => {
   );
 };
 
-export const mergeStatistics = (team: Team): Statistics => {
-  return [...DEFAULT_BANKS, ...Object.keys(team.statistics)]
+export const mergeStatistics = (newTeam: Team, oldTeam?: Team): Statistics => {
+  return [...Object.keys(newTeam.statistics), ...DEFAULT_BANKS]
     .map((bank) => {
-      if (team.statistics[bank]) {
-        return { [bank]: team.statistics[bank] };
+      if (oldTeam && oldTeam.statistics[bank]) {
+        return { [bank]: oldTeam.statistics[bank] };
       }
       return { [bank]: 0 };
     })

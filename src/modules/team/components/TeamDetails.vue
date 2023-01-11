@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { useTeamFetch } from "@/modules/team/composables/fetch";
-import type { Ref } from "vue";
 import { toRef } from "vue";
 import BaseLoading from "@/modules/base/components/BaseLoading.vue";
 import TeamDetailsView from "@/modules/team/components/TeamDetailsView.vue";
-import { useTeam } from "@/modules/team/composables/team";
-import type { Team } from "@hennihaus/bamconfigbackend";
 import { useRouter } from "vue-router";
 import { useBaseI18n } from "@/modules/base/composables/i18n";
 import BaseMessage from "@/modules/base/components/BaseMessage.vue";
+import { TeamType } from "@/models/team-type";
 
 const { t } = useBaseI18n();
 const router = useRouter();
+const regularTeamType = TeamType.REGULAR;
 
 const props = defineProps<{ uuid: string; thumbnailUrl: string }>();
 
@@ -24,7 +23,6 @@ const {
   deleteQueue,
   resetStats,
 } = useTeamFetch(toRef(props, "uuid"));
-const { isRegular } = useTeam(team as Ref<Team>);
 
 const onDeleteTeam = () => {
   if (confirm(t("team.delete-warning"))) {
@@ -53,7 +51,7 @@ const onResetStats = () => {
       <TeamDetailsView :team="team" :thumbnail-url="thumbnailUrl" />
 
       <button
-        v-if="isRegular"
+        v-if="team.type === regularTeamType"
         class="ui tiny red labeled icon button"
         @click="onDeleteTeam"
       >

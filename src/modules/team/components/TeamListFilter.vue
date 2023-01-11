@@ -7,7 +7,7 @@ import { useBaseI18n } from "@/modules/base/composables/i18n";
 import { TeamType } from "@/models/team-type";
 import BaseCheckbox from "@/modules/base/components/BaseCheckbox.vue";
 import type {
-  FormQuery,
+  TeamFormQuery,
   HasPassed,
 } from "@/modules/team/services/query-service";
 import { buildQuery } from "@/modules/team/services/query-service";
@@ -27,7 +27,7 @@ withDefaults(
   }
 );
 
-const { handleSubmit, isSubmitting } = useForm<FormQuery>({
+const { handleSubmit, isSubmitting } = useForm<TeamFormQuery>({
   initialValues: {
     username: "",
     jmsQueue: "",
@@ -39,7 +39,7 @@ const { handleSubmit, isSubmitting } = useForm<FormQuery>({
   keepValuesOnUnmount: false,
   validateOnMount: false,
 });
-const onSubmit = handleSubmit.withControlled((values: FormQuery) => {
+const onSubmit = handleSubmit.withControlled((values: TeamFormQuery) => {
   const query = buildQuery(values);
   router.push({ name: "TeamList", query });
 });

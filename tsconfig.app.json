@@ -1,16 +1,21 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": [
-    "vite.config.*",
-    "vitest.config.*",
-    "cypress.config.*",
-    "playwright.config.*"
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "src/**/*.json"
+  ],
+  "exclude": [
   ],
   "compilerOptions": {
     "composite": true,
-    "types": [
-      "node"
-    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,
