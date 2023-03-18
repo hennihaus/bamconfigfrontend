@@ -174,7 +174,7 @@ router.beforeEach((to) => {
     ...to,
     params: {
       ...to.params,
-      locale: i18n.global.locale,
+      locale: i18n.global.locale.value,
     },
   };
 });

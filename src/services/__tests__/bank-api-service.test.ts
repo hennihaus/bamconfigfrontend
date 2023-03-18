@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { BankApiService } from "@/services/bank-api-service";
 import type { Bank } from "@hennihaus/bamconfigbackend";
 import {
@@ -7,18 +7,29 @@ import {
   getSyncBank,
 } from "@/__tests__/objectmothers/bank-object-mother";
 import { AxiosError } from "axios";
+import { server } from "@/__tests__/mocks/setup-server";
+import {
+  getAllBanksErrorRestHandler,
+  getAllBanksRestHandler,
+  getOneBankRestHandler,
+  getUpdateBankRestHandler,
+} from "@/__tests__/mocks/bank-api-mocks";
 
 describe("BankApiService", () => {
   const classUnderTest = new BankApiService();
 
   describe("getAll", () => {
     it("should throw an error when server returns 500", async () => {
+      server.use(getAllBanksErrorRestHandler());
+
       const result: Promise<Bank[]> = classUnderTest.getAll();
 
       await expect(result).rejects.toThrowError(AxiosError);
     });
 
     it("should return a list of banks", async () => {
+      server.use(getAllBanksRestHandler());
+
       const result: Promise<Bank[]> = classUnderTest.getAll();
 
       await expect(result).resolves.toStrictEqual([
@@ -30,6 +41,8 @@ describe("BankApiService", () => {
   });
 
   describe("getOne", () => {
+    beforeEach(() => server.use(getOneBankRestHandler()));
+
     it("should return a bank by uuid", async () => {
       const { uuid } = getSchufaBank();
 
@@ -48,6 +61,8 @@ describe("BankApiService", () => {
   });
 
   describe("update", () => {
+    beforeEach(() => server.use(getUpdateBankRestHandler()));
+
     it("should update and return a bank by uuid", async () => {
       const bank = getSchufaBank();
 

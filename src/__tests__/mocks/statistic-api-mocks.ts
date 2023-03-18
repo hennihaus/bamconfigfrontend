@@ -26,17 +26,31 @@ const limitResResolver = (): ResResolver<DefaultBodyType> => {
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const statisticApiMocks = [
-  rest.put(
+export const getUpdateStatisticsRestHandler = () => {
+  return rest.put(
     `${import.meta.env.VITE_API_URL}/statistics/:bankId`,
     bankIdResResolver()
-  ),
-  rest.delete(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getDeleteStatisticsRestHandler = () => {
+  return rest.delete(
     `${import.meta.env.VITE_API_URL}/statistics/:bankId`,
     bankIdResResolver()
-  ),
-  rest.post(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getRecreateStatisticsRestHandler = () => {
+  return rest.post(
     `${import.meta.env.VITE_API_URL}/statistics/:limit`,
     limitResResolver()
-  ),
-];
+  );
+};

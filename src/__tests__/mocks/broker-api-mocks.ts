@@ -20,17 +20,31 @@ const deleteQueueByNameResResolver = (): ResResolver<DefaultBodyType> => {
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const brokerApiMocks = [
-  rest.delete(
+export const getResetBrokerErrorRestHandler = () => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/activemq`,
     internalServerErrorResResolver<DefaultBodyType>()
-  ),
-  rest.delete(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getResetBrokerRestHandler = () => {
+  return rest.delete(
     `${import.meta.env.VITE_API_URL}/activemq`,
     noContentResResolver()
-  ),
-  rest.delete(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getDeleteQueueByNameRestHandler = () => {
+  return rest.delete(
     `${import.meta.env.VITE_API_URL}/activemq/:name`,
     deleteQueueByNameResResolver()
-  ),
-];
+  );
+};

@@ -7,7 +7,7 @@ export type MessageSchema = typeof de;
 export type NumberSchema = {
   currency: {
     style: "currency";
-    currency: string;
+    currency: "EUR";
     notation: "standard";
   };
 };

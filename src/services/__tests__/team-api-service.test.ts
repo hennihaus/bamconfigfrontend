@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import {beforeEach, describe, expect, it} from "vitest";
 import { TeamApiService } from "@/services/team-api-service";
 import type { Team, Teams } from "@hennihaus/bamconfigbackend";
 import {
@@ -11,11 +11,24 @@ import {
   getTeamQueryWithNoEmptyFields,
 } from "@/__tests__/objectmothers/query-object-mother";
 import { AxiosError } from "axios";
+import {server} from "@/__tests__/mocks/setup-server";
+import {
+  getAllTeamsRestHandler,
+  getDeleteTeamRestHandler,
+  getIsJmsQueueUniqueRestHandler,
+  getIsPasswordUniqueRestHandler,
+  getIsUsernameUniqueRestHandler,
+  getOneTeamRestHandler,
+  getResetStatisticsRestHandler,
+  getUpdateTeamRestHandler
+} from "@/__tests__/mocks/team-api-mocks";
 
 describe("TeamApiService", () => {
   const classUnderTest = new TeamApiService();
 
   describe("getAll", () => {
+    beforeEach(() => server.use(getAllTeamsRestHandler()))
+
     it("should return a list of teams when only limit param is set", async () => {
       const params = getTeamQueryWithEmptyFields();
 
@@ -42,6 +55,8 @@ describe("TeamApiService", () => {
   });
 
   describe("getOne", () => {
+    beforeEach(() => server.use(getOneTeamRestHandler()))
+
     it("should return a team by uuid", async () => {
       const { uuid } = getFirstTeam();
 
@@ -60,6 +75,8 @@ describe("TeamApiService", () => {
   });
 
   describe("update", () => {
+    beforeEach(() => server.use(getUpdateTeamRestHandler()))
+
     it("should update and return a team by uuid", async () => {
       const team = getFirstTeam();
 
@@ -78,6 +95,8 @@ describe("TeamApiService", () => {
   });
 
   describe("delete", () => {
+    beforeEach(() => server.use(getDeleteTeamRestHandler()))
+
     it("should delete a team by uuid", async () => {
       const { uuid } = getFirstTeam();
 
@@ -96,6 +115,8 @@ describe("TeamApiService", () => {
   });
 
   describe("resetStatistics", () => {
+    beforeEach(() => server.use(getResetStatisticsRestHandler()))
+
     it("should reset statistics and return a team by uuid", async () => {
       const { uuid } = getFirstTeam();
 
@@ -114,6 +135,8 @@ describe("TeamApiService", () => {
   });
 
   describe("isUsernameUnique", () => {
+    beforeEach(() => server.use(getIsUsernameUniqueRestHandler()))
+
     it("should return true when uuid and username is unique", async () => {
       const { uuid, username } = getFirstTeam();
 
@@ -139,6 +162,8 @@ describe("TeamApiService", () => {
   });
 
   describe("isPasswordUnique", () => {
+    beforeEach(() => server.use(getIsPasswordUniqueRestHandler()))
+
     it("should return true when uuid and password is unique", async () => {
       const { uuid, password } = getFirstTeam();
 
@@ -164,6 +189,8 @@ describe("TeamApiService", () => {
   });
 
   describe("isJmsQueueUnique", () => {
+    beforeEach(() => server.use(getIsJmsQueueUniqueRestHandler()))
+
     it("should return true when uuid and jmsQueue is unique", async () => {
       const { uuid, jmsQueue } = getFirstTeam();
 

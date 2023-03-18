@@ -5,7 +5,7 @@ import BankListItem from "@/modules/bank/components/BankListItem.vue";
 import BaseMessage from "@/modules/base/components/BaseMessage.vue";
 import BaseLoading from "@/modules/base/components/BaseLoading.vue";
 
-const props = withDefaults(defineProps<{ pageNumber?: string | null }>(), {
+withDefaults(defineProps<{ pageNumber?: string | null }>(), {
   pageNumber: null,
 });
 
@@ -16,7 +16,7 @@ const { banks, isLoading } = useBanksFetch();
   <template v-if="!isLoading">
     <BaseFrontendPagination
       :items="banks"
-      :page-number="props.pageNumber"
+      :page-number="pageNumber"
       component="BankList"
     >
       <template #item="{ item }">

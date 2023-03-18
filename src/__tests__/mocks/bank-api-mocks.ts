@@ -16,21 +16,46 @@ import type { Bank } from "@hennihaus/bamconfigbackend";
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const bankApiMocks = [
-  rest.get(
+export const getAllBanksErrorRestHandler = () => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/banks`,
     internalServerErrorResResolver<Bank[]>()
-  ),
-  rest.get(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getAllBanksRestHandler = (
+  responseBody: Bank[] = [getSchufaBank(), getSyncBank(), getAsyncBank()]
+) => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/banks`,
-    getAllResResolver([getSchufaBank(), getSyncBank(), getAsyncBank()])
-  ),
-  rest.get(
+    getAllResResolver(responseBody)
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getOneBankRestHandler = (responseBody: Bank = getSchufaBank()) => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/banks/:uuid`,
-    getOneResResolver(getSchufaBank())
-  ),
-  rest.patch(
+    getOneResResolver(responseBody)
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getUpdateBankRestHandler = (
+  responseBody: Bank = getSchufaBank()
+) => {
+  return rest.patch(
     `${import.meta.env.VITE_API_URL}/banks/:uuid`,
-    updateResResolver(getSchufaBank())
-  ),
-];
+    updateResResolver(responseBody)
+  );
+};
