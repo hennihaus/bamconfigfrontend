@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { TaskApiService } from "@/services/task-api-service";
 import type { Task } from "@hennihaus/bamconfigbackend";
 import { AxiosError } from "axios";
@@ -7,18 +7,30 @@ import {
   getSchufaTask,
   getSynchronousBankTask,
 } from "@/__tests__/objectmothers/task-object-mother";
+import { server } from "@/__tests__/mocks/setup-server";
+import {
+  getAllTasksErrorRestHandler,
+  getAllTasksRestHandler,
+  getIsTitleUniqueRestHandler,
+  getOneTaskRestHandler,
+  getUpdateTaskRestHandler,
+} from "@/__tests__/mocks/task-api-mocks";
 
 describe("TaskApiService", () => {
   const classUnderTest = new TaskApiService();
 
   describe("getAll", () => {
     it("should throw an error when server returns 500", async () => {
+      server.use(getAllTasksErrorRestHandler());
+
       const result: Promise<Task[]> = classUnderTest.getAll();
 
       await expect(result).rejects.toThrowError(AxiosError);
     });
 
     it("should return a list of tasks", async () => {
+      server.use(getAllTasksRestHandler());
+
       const result: Promise<Task[]> = classUnderTest.getAll();
 
       await expect(result).resolves.toStrictEqual([
@@ -30,6 +42,8 @@ describe("TaskApiService", () => {
   });
 
   describe("getOne", () => {
+    beforeEach(() => server.use(getOneTaskRestHandler()));
+
     it("should return a task by uuid", async () => {
       const { uuid } = getSchufaTask();
 
@@ -48,6 +62,8 @@ describe("TaskApiService", () => {
   });
 
   describe("update", () => {
+    beforeEach(() => server.use(getUpdateTaskRestHandler()));
+
     it("should update and return a task by uuid", async () => {
       const task = getSchufaTask();
 
@@ -66,6 +82,8 @@ describe("TaskApiService", () => {
   });
 
   describe("isTitleUnique", () => {
+    beforeEach(() => server.use(getIsTitleUniqueRestHandler()));
+
     it("should return true when uuid and title is unique", async () => {
       const { uuid, title } = getSchufaTask();
 

@@ -50,7 +50,7 @@ const {
       teamApi: inject(TEAM_API) as TeamApiService,
     },
   },
-  { label: t("team.username") }
+  { label: t("team.jms-queue") }
 );
 </script>
 

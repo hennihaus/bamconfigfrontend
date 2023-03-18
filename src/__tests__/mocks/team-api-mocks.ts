@@ -11,13 +11,14 @@ import {
   isUniqueResResolver,
   updateResResolver,
 } from "@/__tests__/mocks/api-mocks";
+import type { Team } from "@hennihaus/bamconfigbackend";
 
 /**
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const teamApiMocks = [
-  rest.get(
+export const getAllTeamsRestHandler = () => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/teams`,
     getPaginationResResolver(
       getTeamsWithEmptyFields(),
@@ -38,33 +39,86 @@ export const teamApiMocks = [
         );
       }
     )
-  ),
-  rest.get(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getOneTeamRestHandler = (responseBody: Team = getFirstTeam()) => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/teams/:uuid`,
-    getOneResResolver(getFirstTeam())
-  ),
-  rest.put(
+    getOneResResolver(responseBody)
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getUpdateTeamRestHandler = (
+  responseBody: Team = getFirstTeam()
+) => {
+  return rest.put(
     `${import.meta.env.VITE_API_URL}/teams/:uuid`,
-    updateResResolver(getFirstTeam())
-  ),
-  rest.delete(
+    updateResResolver(responseBody)
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getDeleteTeamRestHandler = () => {
+  return rest.delete(
     `${import.meta.env.VITE_API_URL}/teams/:uuid`,
     deleteResResolver()
-  ),
-  rest.delete(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getResetStatisticsRestHandler = (
+  responseBody: Team = getFirstTeam()
+) => {
+  return rest.delete(
     `${import.meta.env.VITE_API_URL}/teams/:uuid/statistics`,
-    getOneResResolver(getFirstTeam())
-  ),
-  rest.get(
+    getOneResResolver(responseBody)
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getIsUsernameUniqueRestHandler = () => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/teams/:uuid/unique/username/:username`,
     isUniqueResResolver()
-  ),
-  rest.get(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getIsPasswordUniqueRestHandler = () => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/teams/:uuid/unique/password/:password`,
     isUniqueResResolver()
-  ),
-  rest.get(
+  );
+};
+
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getIsJmsQueueUniqueRestHandler = () => {
+  return rest.get(
     `${import.meta.env.VITE_API_URL}/teams/:uuid/unique/jmsQueue/:jmsQueue`,
     isUniqueResResolver()
-  ),
-];
+  );
+};

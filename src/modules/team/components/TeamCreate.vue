@@ -41,7 +41,7 @@ const isLoading = computed(() => isLoadingBanks.value || isLoadingTeam.value);
   <template v-if="!isLoadingBanks">
     <h1>{{ $t("team.create") }}</h1>
     <BaseMessage v-if="message" :message="message" />
-    <TeamForm :banks="banks" @submit-team="onSubmitTeam" />
+    <TeamForm @submit-team="onSubmitTeam" />
   </template>
   <BaseLoading v-if="isLoading" />
 </template>

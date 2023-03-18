@@ -46,7 +46,7 @@ const onSubmitTeam = (team: Team) => {
   <template v-if="!isLoading">
     <h1>{{ $t("team.edit") }}</h1>
     <BaseMessage v-if="message" :message="message" />
-    <TeamForm :team="team" :banks="banks" @submit-team="onSubmitTeam" />
+    <TeamForm :team="team" @submit-team="onSubmitTeam" />
   </template>
   <BaseLoading v-else />
 </template>

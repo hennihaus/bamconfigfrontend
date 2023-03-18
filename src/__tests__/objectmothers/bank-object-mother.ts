@@ -1,7 +1,3 @@
-/**
- * NEVER USE IN PRODUCTIVE CODE!
- * ONLY FOR TESTING!
- */
 import type { Bank, CreditConfiguration } from "@hennihaus/bamconfigbackend";
 import { RatingLevel } from "@/models/rating-level";
 
