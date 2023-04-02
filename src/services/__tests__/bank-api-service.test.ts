@@ -7,13 +7,13 @@ import {
   getSyncBank,
 } from "@/__tests__/objectmothers/bank-object-mother";
 import { AxiosError } from "axios";
-import { server } from "@/__tests__/mocks/setup-server";
 import {
   getAllBanksErrorRestHandler,
   getAllBanksRestHandler,
   getOneBankRestHandler,
   getUpdateBankRestHandler,
 } from "@/__tests__/mocks/bank-api-mocks";
+import { server } from "@/__tests__/setups/setup-server";
 
 describe("BankApiService", () => {
   const classUnderTest = new BankApiService();

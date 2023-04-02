@@ -7,7 +7,6 @@ import {
   getSchufaTask,
   getSynchronousBankTask,
 } from "@/__tests__/objectmothers/task-object-mother";
-import { server } from "@/__tests__/mocks/setup-server";
 import {
   getAllTasksErrorRestHandler,
   getAllTasksRestHandler,
@@ -15,6 +14,7 @@ import {
   getOneTaskRestHandler,
   getUpdateTaskRestHandler,
 } from "@/__tests__/mocks/task-api-mocks";
+import { server } from "@/__tests__/setups/setup-server";
 
 describe("TaskApiService", () => {
   const classUnderTest = new TaskApiService();

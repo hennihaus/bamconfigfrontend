@@ -40,7 +40,11 @@ export default defineConfig({
   test: {
     globals: true,
     root: "src/",
-    setupFiles: ["src/__tests__/mocks/setup-server.ts"],
+    environment: "jsdom",
+    setupFiles: [
+      "src/__tests__/setups/setup-server.ts",
+      "src/__tests__/setups/setup-vue.ts",
+    ],
     // https://github.com/bcoe/c8#ignoring-uncovered-lines-functions-and-blocks
     coverage: {
       all: true,
