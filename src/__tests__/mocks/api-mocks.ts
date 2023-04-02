@@ -16,7 +16,7 @@ import type { Errors } from "@hennihaus/bamconfigbackend";
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export type ResResolver<ResponseBody> = ResponseResolver<
+export type ResResolver<ResponseBody extends DefaultBodyType> = ResponseResolver<
   RestRequest<DefaultBodyType, PathParams<any>>,
   RestContext,
   ResponseBody | Errors
@@ -40,7 +40,7 @@ export const getAllResResolver = <T>(responseBody: T[]): ResResolver<T[]> => {
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const getOneResResolver = <T>(responseBody: T): ResResolver<T> => {
+export const getOneResResolver = <T extends DefaultBodyType>(responseBody: T): ResResolver<T> => {
   return (req, res, ctx) => {
     if (uuidValidate(req.params["uuid"])) {
       return res(ctx.json(responseBody));
@@ -53,7 +53,7 @@ export const getOneResResolver = <T>(responseBody: T): ResResolver<T> => {
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const updateResResolver = <T>(responseBody: T): ResResolver<T> => {
+export const updateResResolver = <T extends DefaultBodyType>(responseBody: T): ResResolver<T> => {
   return async (req, res, ctx) => {
     if (uuidValidate(req.params["uuid"]) && (await req.json<T>())) {
       return res(ctx.json(responseBody));
@@ -92,7 +92,7 @@ export const isUniqueResResolver = (): ResResolver<{ isUnique: boolean }> => {
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const getPaginationResResolver = <T>(
+export const getPaginationResResolver = <T extends DefaultBodyType>(
   responseBodyWithEmptyFields: T,
   responseBodyWithNoEmptyFields: T,
   hasRequestParamsWithNoEmptyField: (req: Request) => Boolean
@@ -120,7 +120,7 @@ export const noContentResResolver = (): ResResolver<DefaultBodyType> => {
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const internalServerErrorResResolver = <T>(): ResResolver<T> => {
+export const internalServerErrorResResolver = <T extends DefaultBodyType>(): ResResolver<T> => {
   return (_, res, ctx) =>
     res.once(ctx.status(500), ctx.json(getInternalServerErrors()));
 };
