@@ -130,12 +130,13 @@ const handleMaxSchufaRatingInput = (event: Event) => {
 <template>
   <div class="fields">
     <div class="field">
-      <label>
+      <label for="minAmountInEuros">
         {{ $t("bank.credit-configuration-min-amount-in-euros") }}
         ({{ $t("common.money") }})
       </label>
       <div class="ui left corner labeled input">
         <input
+          id="minAmountInEuros"
           :value="minAmountInEuros"
           type="number"
           @input="handleMinAmountInEurosInput"
@@ -149,12 +150,13 @@ const handleMaxSchufaRatingInput = (event: Event) => {
     </div>
 
     <div class="field">
-      <label>
+      <label for="maxAmountInEuros">
         {{ $t("bank.credit-configuration-max-amount-in-euros") }}
         ({{ $t("common.money") }})
       </label>
       <div class="ui left corner labeled input">
         <input
+          id="maxAmountInEuros"
           :value="maxAmountInEuros"
           type="number"
           @input="handleMaxAmountInEurosInput"
@@ -170,12 +172,13 @@ const handleMaxSchufaRatingInput = (event: Event) => {
 
   <div class="fields">
     <div class="field">
-      <label>
+      <label for="minTermInMonths">
         {{ $t("bank.credit-configuration-min-term-in-months") }}
         ({{ $t("bank.credit-configuration-month", 2) }})
       </label>
       <div class="ui left corner labeled input">
         <input
+          id="minTermInMonths"
           :value="minTermInMonths"
           type="number"
           @input="handleMinTermInMonthsInput"
@@ -189,12 +192,13 @@ const handleMaxSchufaRatingInput = (event: Event) => {
     </div>
 
     <div class="field">
-      <label>
+      <label for="maxTermInMonths">
         {{ $t("bank.credit-configuration-max-term-in-months") }}
         ({{ $t("bank.credit-configuration-month", 2) }})
       </label>
       <div class="ui left corner labeled input">
         <input
+          id="maxTermInMonths"
           :value="maxTermInMonths"
           type="number"
           @input="handleMaxTermInMonthsInput"
@@ -210,8 +214,11 @@ const handleMaxSchufaRatingInput = (event: Event) => {
 
   <div class="fields">
     <div class="field">
-      <label>{{ $t("bank.credit-configuration-min-schufa-rating") }}</label>
+      <label for="minSchufaRating">
+        {{ $t("bank.credit-configuration-min-schufa-rating") }}
+      </label>
       <select
+        id="minSchufaRating"
         :value="minSchufaRating"
         class="select"
         @input="handleMinSchufaRatingInput"
@@ -230,8 +237,11 @@ const handleMaxSchufaRatingInput = (event: Event) => {
     </div>
 
     <div class="field">
-      <label>{{ $t("bank.credit-configuration-max-schufa-rating") }}</label>
+      <label for="maxSchufaRating">
+        {{ $t("bank.credit-configuration-max-schufa-rating") }}
+      </label>
       <select
+        id="maxSchufaRating"
         :value="maxSchufaRating"
         class="select"
         @input="handleMaxSchufaRatingInput"

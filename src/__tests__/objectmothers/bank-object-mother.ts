@@ -1,14 +1,19 @@
 import type { Bank, CreditConfiguration } from "@hennihaus/bamconfigbackend";
 import { RatingLevel } from "@/models/rating-level";
 
-const getCreditConfigurationWithNoEmptyFields = (): CreditConfiguration => ({
-  minAmountInEuros: 10_000,
-  maxAmountInEuros: 50_000,
-  minTermInMonths: 6,
-  maxTermInMonths: 36,
-  minSchufaRating: RatingLevel.A,
-  maxSchufaRating: RatingLevel.P,
-});
+/**
+ * NEVER USE IN PRODUCTIVE CODE!
+ * ONLY FOR TESTING!
+ */
+export const getCreditConfigurationWithNoEmptyFields =
+  (): CreditConfiguration => ({
+    minAmountInEuros: 10_000,
+    maxAmountInEuros: 50_000,
+    minTermInMonths: 6,
+    maxTermInMonths: 36,
+    minSchufaRating: RatingLevel.A,
+    maxSchufaRating: RatingLevel.P,
+  });
 
 /**
  * NEVER USE IN PRODUCTIVE CODE!

@@ -133,6 +133,10 @@ const veeValidate = {
     });
 
     defineRule("amount_in_euros", (_1, _2, context) => {
+      if (!context.form.creditConfiguration) {
+        return true;
+      }
+
       const config = context.form.creditConfiguration as CreditConfiguration;
       const minAmount = config.minAmountInEuros;
       const maxAmount = config.maxAmountInEuros;
@@ -145,6 +149,10 @@ const veeValidate = {
     });
 
     defineRule("term_in_months", (_1, _2, context) => {
+      if (!context.form.creditConfiguration) {
+        return true;
+      }
+
       const config = context.form.creditConfiguration as CreditConfiguration;
       const minTerm = config.minTermInMonths;
       const maxTerm = config.maxTermInMonths;
@@ -157,6 +165,10 @@ const veeValidate = {
     });
 
     defineRule("schufa_rating", (_1, _2, context) => {
+      if (!context.form.creditConfiguration) {
+        return true;
+      }
+
       const config = context.form.creditConfiguration as CreditConfiguration;
       const minRating = config.minSchufaRating;
       const maxRating = config.maxSchufaRating;

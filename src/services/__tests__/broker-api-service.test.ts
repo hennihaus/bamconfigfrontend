@@ -2,12 +2,12 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { BrokerApiService } from "@/services/broker-api-service";
 import { AxiosError } from "axios";
 import { getFirstTeam } from "@/__tests__/objectmothers/team-object-mother";
-import { server } from "@/__tests__/mocks/setup-server";
 import {
   getDeleteQueueByNameRestHandler,
   getResetBrokerErrorRestHandler,
   getResetBrokerRestHandler,
 } from "@/__tests__/mocks/broker-api-mocks";
+import { server } from "@/__tests__/setups/setup-server";
 
 describe("BrokerApiService", () => {
   const classUnderTest = new BrokerApiService();

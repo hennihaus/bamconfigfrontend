@@ -3,12 +3,12 @@ import { StatisticApiService } from "@/services/statistic-api-service";
 import { getSchufaBank } from "@/__tests__/objectmothers/bank-object-mother";
 import { AxiosError } from "axios";
 import { getTeamQueryWithNoEmptyFields } from "@/__tests__/objectmothers/query-object-mother";
-import { server } from "@/__tests__/mocks/setup-server";
 import {
   getDeleteStatisticsRestHandler,
   getRecreateStatisticsRestHandler,
   getUpdateStatisticsRestHandler,
 } from "@/__tests__/mocks/statistic-api-mocks";
+import { server } from "@/__tests__/setups/setup-server";
 
 describe("StatisticApiService", () => {
   const classUnderTest = new StatisticApiService();

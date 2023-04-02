@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import type { Bank } from "@hennihaus/bamconfigbackend";
 import { computed } from "vue";
-import { useField, useForm } from "vee-validate";
-import { useBaseI18n } from "@/modules/base/composables/i18n";
+import { useForm } from "vee-validate";
+import BankFormCommon from "@/modules/bank/components/BankFormCommon.vue";
 import BankFormCreditConfiguration from "@/modules/bank/components/BankFormCreditConfiguration.vue";
-import BaseFormMessage from "@/modules/base/components/BaseFormMessage.vue";
-
-const { t } = useBaseI18n();
 
 const props = defineProps<{ bank: Bank }>();
 
@@ -18,50 +15,28 @@ const { handleSubmit, meta, isSubmitting } = useForm<Bank>({
   validateOnMount: false,
   keepValuesOnUnmount: false,
 });
-const onSubmit = handleSubmit((values: Bank) => emit("submitBank", values));
-
-const { value: isActive, handleBlur: handleIsActiveBlur } =
-  useField<boolean>("isActive");
-const {
-  value: thumbnailUrl,
-  errors: thumbnailUrlErrors,
-  handleBlur: handleThumbnailUrlBlur,
-} = useField<string>(
-  "thumbnailUrl",
-  { required: true, url: true },
-  { label: t("bank.thumbnail-url") }
-);
+const onSubmit = handleSubmit((values: Bank) => {
+  if (values.creditConfiguration) {
+    emit("submitBank", {
+      ...values,
+      creditConfiguration: {
+        minAmountInEuros: +values.creditConfiguration.minAmountInEuros,
+        maxAmountInEuros: +values.creditConfiguration.maxAmountInEuros,
+        minTermInMonths: +values.creditConfiguration.minTermInMonths,
+        maxTermInMonths: +values.creditConfiguration.maxTermInMonths,
+        minSchufaRating: values.creditConfiguration.minSchufaRating,
+        maxSchufaRating: values.creditConfiguration.maxSchufaRating,
+      },
+    });
+  } else {
+    emit("submitBank", values);
+  }
+});
 </script>
 
 <template>
   <form class="ui equal width form" @submit="onSubmit">
-    <div v-if="bank.isAsync" class="field">
-      <label>{{ $t("common.status") }}</label>
-      <select v-model="isActive" class="select" @blur="handleIsActiveBlur">
-        <option :value="true" :selected="isActive">
-          {{ $t("bank.active-status", 1) }}
-        </option>
-        <option :value="false" :selected="!isActive">
-          {{ $t("bank.active-status", 0) }}
-        </option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>{{ $t("bank.thumbnail-url") }}</label>
-      <div class="ui left corner labeled input">
-        <input
-          v-model="thumbnailUrl"
-          type="url"
-          @blur="handleThumbnailUrlBlur"
-        />
-        <div class="ui left corner label">
-          <i class="asterisk icon" />
-        </div>
-      </div>
-      <BaseFormMessage :errors="thumbnailUrlErrors" />
-    </div>
-
+    <BankFormCommon />
     <BankFormCreditConfiguration v-if="bank.creditConfiguration" />
 
     <p />
@@ -76,9 +51,3 @@ const {
     </button>
   </form>
 </template>
-
-<style scoped>
-.select {
-  appearance: none;
-}
-</style>
