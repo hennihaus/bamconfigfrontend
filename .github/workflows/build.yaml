@@ -27,8 +27,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run formatter tests
+        run: npm run prettier:ci
+
       - name: Run lint tests
-        run: npm run lint
+        run: npm run lint:ci
 
       - name: Run unit tests
         run: npm run test:ci
