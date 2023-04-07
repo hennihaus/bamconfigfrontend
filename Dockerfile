@@ -5,7 +5,8 @@ COPY . .
 RUN chown -R node:node /bamconfigfrontend
 USER node
 RUN npm install && \
-    npm run lint && \
+    npm run prettier:ci && \
+    npm run lint:ci && \
     npm run test:ci && \
     npm run build
 

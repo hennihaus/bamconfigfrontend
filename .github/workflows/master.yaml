@@ -11,13 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version: "16.x"
+          registry-url: "https://npm.pkg.github.com"
 
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.40.0
