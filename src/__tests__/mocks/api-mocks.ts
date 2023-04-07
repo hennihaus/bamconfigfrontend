@@ -16,11 +16,12 @@ import type { Errors } from "@hennihaus/bamconfigbackend";
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export type ResResolver<ResponseBody extends DefaultBodyType> = ResponseResolver<
-  RestRequest<DefaultBodyType, PathParams<any>>,
-  RestContext,
-  ResponseBody | Errors
->;
+export type ResResolver<ResponseBody extends DefaultBodyType> =
+  ResponseResolver<
+    RestRequest<DefaultBodyType, PathParams<any>>,
+    RestContext,
+    ResponseBody | Errors
+  >;
 
 /**
  * NEVER USE IN PRODUCTIVE CODE!
@@ -40,7 +41,9 @@ export const getAllResResolver = <T>(responseBody: T[]): ResResolver<T[]> => {
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const getOneResResolver = <T extends DefaultBodyType>(responseBody: T): ResResolver<T> => {
+export const getOneResResolver = <T extends DefaultBodyType>(
+  responseBody: T
+): ResResolver<T> => {
   return (req, res, ctx) => {
     if (uuidValidate(req.params["uuid"])) {
       return res(ctx.json(responseBody));
@@ -53,7 +56,9 @@ export const getOneResResolver = <T extends DefaultBodyType>(responseBody: T): R
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const updateResResolver = <T extends DefaultBodyType>(responseBody: T): ResResolver<T> => {
+export const updateResResolver = <T extends DefaultBodyType>(
+  responseBody: T
+): ResResolver<T> => {
   return async (req, res, ctx) => {
     if (uuidValidate(req.params["uuid"]) && (await req.json<T>())) {
       return res(ctx.json(responseBody));
@@ -120,7 +125,9 @@ export const noContentResResolver = (): ResResolver<DefaultBodyType> => {
  * NEVER USE IN PRODUCTIVE CODE!
  * ONLY FOR TESTING!
  */
-export const internalServerErrorResResolver = <T extends DefaultBodyType>(): ResResolver<T> => {
+export const internalServerErrorResResolver = <
+  T extends DefaultBodyType
+>(): ResResolver<T> => {
   return (_, res, ctx) =>
     res.once(ctx.status(500), ctx.json(getInternalServerErrors()));
 };

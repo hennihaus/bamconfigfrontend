@@ -8,9 +8,7 @@
   ],
   "compilerOptions": {
     "composite": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,
