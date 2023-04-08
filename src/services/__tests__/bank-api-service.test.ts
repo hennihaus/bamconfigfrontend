@@ -20,18 +20,24 @@ describe("BankApiService", () => {
 
   describe("getAll", () => {
     it("should throw an error when server returns 500", async () => {
+      // arrange
       server.use(getAllBanksErrorRestHandler());
 
+      // act
       const result: Promise<Bank[]> = classUnderTest.getAll();
 
+      // assert
       await expect(result).rejects.toThrowError(AxiosError);
     });
 
     it("should return a list of banks", async () => {
+      // arrange
       server.use(getAllBanksRestHandler());
 
+      // act
       const result: Promise<Bank[]> = classUnderTest.getAll();
 
+      // assert
       await expect(result).resolves.toStrictEqual([
         getSchufaBank(),
         getSyncBank(),
@@ -44,18 +50,24 @@ describe("BankApiService", () => {
     beforeEach(() => server.use(getOneBankRestHandler()));
 
     it("should return a bank by uuid", async () => {
+      // arrange
       const { uuid } = getSchufaBank();
 
+      // act
       const result: Promise<Bank> = classUnderTest.getOne(uuid);
 
+      // assert
       await expect(result).resolves.toStrictEqual(getSchufaBank());
     });
 
     it("should throw an error when server returns 400", async () => {
+      // arrange
       const uuid = "invalidUUID";
 
+      // act
       const result: Promise<Bank> = classUnderTest.getOne(uuid);
 
+      // assert
       await expect(result).rejects.toThrowError(AxiosError);
     });
   });
@@ -64,18 +76,24 @@ describe("BankApiService", () => {
     beforeEach(() => server.use(getUpdateBankRestHandler()));
 
     it("should update and return a bank by uuid", async () => {
+      // arrange
       const bank = getSchufaBank();
 
+      // act
       const result: Promise<Bank> = classUnderTest.update(bank);
 
+      // assert
       await expect(result).resolves.toStrictEqual(getSchufaBank());
     });
 
     it("should throw an error when server returns 400", async () => {
+      // arrange
       const bank = { ...getSchufaBank(), uuid: "invalidUUID" };
 
+      // act
       const result: Promise<Bank> = classUnderTest.update(bank);
 
+      // assert
       await expect(result).rejects.toThrowError(AxiosError);
     });
   });

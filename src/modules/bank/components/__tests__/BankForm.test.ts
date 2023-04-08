@@ -76,6 +76,7 @@ describe("BankForm.vue", () => {
   };
 
   it("should show max fields for an async bank with credit configuration", () => {
+    // arrange
     const bankForm = renderBankForm({
       props: {
         bank: getAsyncBank(),
@@ -84,6 +85,7 @@ describe("BankForm.vue", () => {
       },
     });
 
+    // assert
     expect(bankForm.getIsActiveSelect()).toBeTruthy();
     expect(bankForm.getThumbnailUrlInput()).toBeTruthy();
     expect(bankForm.getMinAmountInEurosInput()).toBeTruthy();
@@ -95,6 +97,7 @@ describe("BankForm.vue", () => {
   });
 
   it("should show min fields for a sync bank without credit configuration", () => {
+    // arrange
     const bankForm = renderBankForm({
       props: {
         bank: {
@@ -105,6 +108,7 @@ describe("BankForm.vue", () => {
       },
     });
 
+    // assert
     expect(bankForm.getIsActiveSelect()).toBeFalsy();
     expect(bankForm.getThumbnailUrlInput()).toBeTruthy();
     expect(bankForm.getMinAmountInEurosInput()).toBeFalsy();
@@ -116,6 +120,7 @@ describe("BankForm.vue", () => {
   });
 
   it("should submit a correctly prefilled bank form with max fields", async () => {
+    // arrange
     const { user, getByRole, emitted } = renderBankForm({
       props: {
         bank: getAsyncBank(),
@@ -124,13 +129,16 @@ describe("BankForm.vue", () => {
       },
     });
 
+    // act
     await user.click(getByRole("button", { name: "Save" }));
 
+    // assert
     expect(emitted("submitBank")).toHaveLength(1);
     expect(emitted("submitBank")[0]).toEqual([getAsyncBank()]);
   });
 
   it("should submit a correctly prefilled bank form with min fields", async () => {
+    // arrange
     const { user, getByRole, emitted } = renderBankForm({
       props: {
         bank: getSchufaBank(),
@@ -139,13 +147,16 @@ describe("BankForm.vue", () => {
       },
     });
 
+    // act
     await user.click(getByRole("button", { name: "Save" }));
 
+    // assert
     expect(emitted("submitBank")).toHaveLength(1);
     expect(emitted("submitBank")[0]).toEqual([getSchufaBank()]);
   });
 
   it("should not submit an invalid prefilled bank form", async () => {
+    // arrange
     const { user, getByRole, emitted, ...componentUnderTest } = renderBankForm({
       props: {
         bank: {
@@ -155,13 +166,16 @@ describe("BankForm.vue", () => {
       },
     });
 
+    // act
     await user.click(getByRole("button", { name: "Save" }));
 
+    // assert
     expect(componentUnderTest.getThumbnailUrlError()).toBeTruthy();
     expect(emitted()).not.toHaveProperty("submitBank");
   });
 
   it("should submit a correctly changed bank form", async () => {
+    // arrange
     const { user, emitted, getByRole, ...componentUnderTest } = renderBankForm({
       props: {
         bank: {
@@ -170,6 +184,7 @@ describe("BankForm.vue", () => {
       },
     });
 
+    // act
     await user.selectOptions(componentUnderTest.getIsActiveSelect()!!, [
       "false",
     ]);
@@ -194,6 +209,7 @@ describe("BankForm.vue", () => {
     ]);
     await user.click(getByRole("button", { name: "Save" }));
 
+    // assert
     expect(emitted("submitBank")).toHaveLength(1);
     expect(emitted("submitBank")[0]).toStrictEqual([
       {
@@ -213,18 +229,21 @@ describe("BankForm.vue", () => {
   });
 
   it("should show error messages when all required fields are empty", async () => {
+    // arrange
     const { user, ...componentUnderTest } = renderBankForm({
       props: {
         bank: getAsyncBank(),
       },
     });
 
+    // act
     await user.clear(componentUnderTest.getThumbnailUrlInput()!!);
     await user.clear(componentUnderTest.getMinAmountInEurosInput()!!);
     await user.clear(componentUnderTest.getMaxAmountInEurosInput()!!);
     await user.clear(componentUnderTest.getMinTermInMonthsInput()!!);
     await user.clear(componentUnderTest.getMaxTermInMonthsInput()!!);
 
+    // assert
     expect(componentUnderTest.getThumbnailUrlError().textContent).toContain(
       "required"
     );

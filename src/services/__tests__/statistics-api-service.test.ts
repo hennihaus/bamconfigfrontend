@@ -17,18 +17,24 @@ describe("StatisticApiService", () => {
     beforeEach(() => server.use(getUpdateStatisticsRestHandler()));
 
     it("should save all statistics by bankId", async () => {
+      // arrange
       const { uuid: bankId } = getSchufaBank();
 
+      // act
       const result: Promise<void> = classUnderTest.saveAll(bankId);
 
+      // assert
       await expect(result).resolves.not.toThrowError();
     });
 
     it("should throw an error when server returns 400", async () => {
+      // arrange
       const bankId = "invalidUUID";
 
+      // act
       const result: Promise<void> = classUnderTest.saveAll(bankId);
 
+      // assert
       await expect(result).rejects.toThrowError(AxiosError);
     });
   });
@@ -37,18 +43,24 @@ describe("StatisticApiService", () => {
     beforeEach(() => server.use(getDeleteStatisticsRestHandler()));
 
     it("should delete all statistics by bankId", async () => {
+      // arrange
       const { uuid: bankId } = getSchufaBank();
 
+      // act
       const result: Promise<void> = classUnderTest.deleteAll(bankId);
 
+      // assert
       await expect(result).resolves.not.toThrowError();
     });
 
     it("should throw an error when server returns 400", async () => {
+      // arrange
       const bankId = "invalidUUID";
 
+      // act
       const result: Promise<void> = classUnderTest.deleteAll(bankId);
 
+      // assert
       await expect(result).rejects.toThrowError(AxiosError);
     });
   });
@@ -57,18 +69,24 @@ describe("StatisticApiService", () => {
     beforeEach(() => server.use(getRecreateStatisticsRestHandler()));
 
     it("should recreate all statistics for all banks with a limit", async () => {
+      // arrange
       const { limit } = getTeamQueryWithNoEmptyFields();
 
+      // act
       const result: Promise<void> = classUnderTest.recreateAll(limit);
 
+      // assert
       await expect(result).resolves.not.toThrowError();
     });
 
     it("should throw an error when server returns 400", async () => {
+      // arrange
       const invalidLimit = Number.MAX_SAFE_INTEGER + 1;
 
+      // act
       const result: Promise<void> = classUnderTest.recreateAll(invalidLimit);
 
+      // assert
       await expect(result).rejects.toThrowError(AxiosError);
     });
   });
