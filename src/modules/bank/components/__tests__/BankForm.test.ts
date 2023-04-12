@@ -157,7 +157,7 @@ describe("BankForm.vue", () => {
 
   it("should not submit an invalid prefilled bank form", async () => {
     // arrange
-    const { user, getByRole, emitted, ...componentUnderTest } = renderBankForm({
+    const { user, getByRole, emitted, ...bankForm } = renderBankForm({
       props: {
         bank: {
           ...getAsyncBank(),
@@ -170,13 +170,13 @@ describe("BankForm.vue", () => {
     await user.click(getByRole("button", { name: "Save" }));
 
     // assert
-    expect(componentUnderTest.getThumbnailUrlError()).toBeTruthy();
+    expect(bankForm.getThumbnailUrlError()).toBeTruthy();
     expect(emitted()).not.toHaveProperty("submitBank");
   });
 
   it("should submit a correctly changed bank form", async () => {
     // arrange
-    const { user, emitted, getByRole, ...componentUnderTest } = renderBankForm({
+    const { user, emitted, getByRole, ...bankForm } = renderBankForm({
       props: {
         bank: {
           ...getAsyncBank(),
@@ -185,26 +185,21 @@ describe("BankForm.vue", () => {
     });
 
     // act
-    await user.selectOptions(componentUnderTest.getIsActiveSelect()!!, [
-      "false",
-    ]);
-    await user.clear(componentUnderTest.getThumbnailUrlInput()!!);
-    await user.type(
-      componentUnderTest.getThumbnailUrlInput()!!,
-      "https://bit.ly"
-    );
-    await user.clear(componentUnderTest.getMinAmountInEurosInput()!!);
-    await user.type(componentUnderTest.getMinAmountInEurosInput()!!, "1");
-    await user.clear(componentUnderTest.getMaxAmountInEurosInput()!!);
-    await user.type(componentUnderTest.getMaxAmountInEurosInput()!!, "2");
-    await user.clear(componentUnderTest.getMinTermInMonthsInput()!!);
-    await user.type(componentUnderTest.getMinTermInMonthsInput()!!, "1");
-    await user.clear(componentUnderTest.getMaxTermInMonthsInput()!!);
-    await user.type(componentUnderTest.getMaxTermInMonthsInput()!!, "2");
-    await user.selectOptions(componentUnderTest.getMinSchufaRatingSelect()!!, [
+    await user.selectOptions(bankForm.getIsActiveSelect()!!, ["false"]);
+    await user.clear(bankForm.getThumbnailUrlInput()!!);
+    await user.type(bankForm.getThumbnailUrlInput()!!, "https://bit.ly");
+    await user.clear(bankForm.getMinAmountInEurosInput()!!);
+    await user.type(bankForm.getMinAmountInEurosInput()!!, "1");
+    await user.clear(bankForm.getMaxAmountInEurosInput()!!);
+    await user.type(bankForm.getMaxAmountInEurosInput()!!, "2");
+    await user.clear(bankForm.getMinTermInMonthsInput()!!);
+    await user.type(bankForm.getMinTermInMonthsInput()!!, "1");
+    await user.clear(bankForm.getMaxTermInMonthsInput()!!);
+    await user.type(bankForm.getMaxTermInMonthsInput()!!, "2");
+    await user.selectOptions(bankForm.getMinSchufaRatingSelect()!!, [
       RatingLevel.B,
     ]);
-    await user.selectOptions(componentUnderTest.getMaxSchufaRatingSelect()!!, [
+    await user.selectOptions(bankForm.getMaxSchufaRatingSelect()!!, [
       RatingLevel.O,
     ]);
     await user.click(getByRole("button", { name: "Save" }));
@@ -230,33 +225,31 @@ describe("BankForm.vue", () => {
 
   it("should show error messages when all required fields are empty", async () => {
     // arrange
-    const { user, ...componentUnderTest } = renderBankForm({
+    const { user, ...bankForm } = renderBankForm({
       props: {
         bank: getAsyncBank(),
       },
     });
 
     // act
-    await user.clear(componentUnderTest.getThumbnailUrlInput()!!);
-    await user.clear(componentUnderTest.getMinAmountInEurosInput()!!);
-    await user.clear(componentUnderTest.getMaxAmountInEurosInput()!!);
-    await user.clear(componentUnderTest.getMinTermInMonthsInput()!!);
-    await user.clear(componentUnderTest.getMaxTermInMonthsInput()!!);
+    await user.clear(bankForm.getThumbnailUrlInput()!!);
+    await user.clear(bankForm.getMinAmountInEurosInput()!!);
+    await user.clear(bankForm.getMaxAmountInEurosInput()!!);
+    await user.clear(bankForm.getMinTermInMonthsInput()!!);
+    await user.clear(bankForm.getMaxTermInMonthsInput()!!);
 
     // assert
-    expect(componentUnderTest.getThumbnailUrlError().textContent).toContain(
+    expect(bankForm.getThumbnailUrlError().textContent).toContain("required");
+    expect(bankForm.getMinAmountInEurosError().textContent).toContain(
       "required"
     );
-    expect(componentUnderTest.getMinAmountInEurosError().textContent).toContain(
+    expect(bankForm.getMaxAmountInEurosError().textContent).toContain(
       "required"
     );
-    expect(componentUnderTest.getMaxAmountInEurosError().textContent).toContain(
+    expect(bankForm.getMinTermInMonthsError().textContent).toContain(
       "required"
     );
-    expect(componentUnderTest.getMinTermInMonthsError().textContent).toContain(
-      "required"
-    );
-    expect(componentUnderTest.getMaxTermInMonthsError().textContent).toContain(
+    expect(bankForm.getMaxTermInMonthsError().textContent).toContain(
       "required"
     );
   });

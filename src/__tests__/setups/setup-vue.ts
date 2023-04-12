@@ -20,6 +20,7 @@ export const renderComponentUnderTest = (
   ...render(componentUnderTest, {
     ...options,
     global: {
+      ...options?.global,
       plugins: [veeValidate, i18n],
     },
   }),
